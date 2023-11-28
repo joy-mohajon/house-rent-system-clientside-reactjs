@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header/Header";
 
 const Home = () => {
   return (
-    <div class="container-xxl bg-white p-0">
+    <div className="container-xxl bg-white p-0">
       <Header />
     </div>
   );
