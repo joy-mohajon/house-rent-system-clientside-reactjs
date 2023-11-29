@@ -313,8 +313,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setCategory(type)}
               options={categoryOptions}
               errorMessages={errorMessages.category}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
 
@@ -325,8 +323,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setPropertyType(type)}
               options={propertyTypeOptions}
               errorMessages={errorMessages.propertyType}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
           </Box>
@@ -349,8 +345,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setGender(type)}
               options={genderOptions}
               errorMessages={errorMessages.gender}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
           </Box>
@@ -373,8 +367,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setBedroom(type)}
               options={bedroomOptions}
               errorMessages={errorMessages.bedroom}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
 
@@ -385,8 +377,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={bathroom}
               setInputValue={(type) => setBathroom(type)}
               errorMessages={errorMessages.bathroom}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
           </Box>
@@ -409,8 +399,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={balcony}
               setInputValue={(type) => setBalcony(type)}
               errorMessages={errorMessages.balcony}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
 
@@ -421,8 +409,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={floor}
               setInputValue={(type) => setFloor(type)}
               errorMessages={errorMessages.floorno}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
           </Box>
@@ -464,8 +450,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={division}
               setInputValue={(data) => setDivision(data)}
               errorMessages={errorMessages.division}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
 
@@ -479,8 +463,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={district}
               setInputValue={(data) => setDistrict(data)}
               errorMessages={errorMessages.district}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
           </Box>
@@ -504,8 +486,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={thana}
               setInputValue={(data) => setThana(data)}
               errorMessages={errorMessages.thana}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
           </Box>
@@ -588,8 +568,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={availableFrom}
               setInputValue={(type) => setAvailableFrom(type)}
               errorMessages={errorMessages.availableFrom}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               selectClasses={selectClasses}
             />
 
@@ -600,8 +578,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={rent}
               setInputValue={(type) => setRent(type)}
               errorMessages={errorMessages.rent}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
             />
           </Box>
 
@@ -622,8 +598,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               label="ADITINAL INFORMATIONS"
               value={additionalInfo}
               setInputValue={(info) => setAdditionalInfo(info)}
-              errorMsgs={errorMessages}
-              setErrorMessages={(msg) => setErrorMessages(msg)}
               errorMessages={errorMessages.additionalInfo}
             />
           </Box>

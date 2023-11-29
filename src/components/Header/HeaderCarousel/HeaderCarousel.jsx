@@ -12,9 +12,9 @@ const HeaderCarousel = () => {
     autoplay: true,
     autoplaySpeed: 1500,
     slidesToShow: 1,
-    dots: true,
+    // dots: true,
     infinite: true,
-    arrows: true,
+    // arrows: true,
     prevArrow: <button>{/* <NavigateNextIcon /> */}</button>,
     nextArrow: <button>{/* <NavigateBeforeIcon /> */}</button>,
   };

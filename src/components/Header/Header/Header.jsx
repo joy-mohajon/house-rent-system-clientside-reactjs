@@ -6,14 +6,12 @@ import "./Header.css";
 
 const Header = () => {
   return (
-    // Header Start
-    <div className="container-fluid header bg-white p-0">
-      <div className="row g-0 align-items-center flex-column-reverse flex-md-row">
+    <div className="container-fluid header bg-white p-0 overflow-hidden">
+      <div className="row g-0 align-items-center flex-column-reverse flex-md-row pt-4">
         <HeaderContent />
         <HeaderCarousel />
       </div>
     </div>
-    // Header end
   );
 };
 

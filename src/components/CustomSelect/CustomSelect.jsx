@@ -1,9 +1,11 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { FormControl, FormHelperText, Option, Select } from "@mui/joy";
+
 import React from "react";
 
 // Custom Select Component
 const CustomSelect = ({
+  padding,
   currentStep,
   label,
   value,
@@ -13,8 +15,6 @@ const CustomSelect = ({
   selectClasses,
 }) => {
   const handleInputValue = (e, newValue) => {
-    // currentStep === 2 && console.log("setting newValue", newValue);
-
     setInputValue(newValue);
   };
 
@@ -27,6 +27,7 @@ const CustomSelect = ({
         sx={{
           width: "100%",
           fontSize: 15,
+          padding: { ...(padding && { padding: "15px 20px"  }), },
           [`& .${selectClasses.indicator}`]: {
             transition: "0.2s",
             [`&.${selectClasses.expanded}`]: {

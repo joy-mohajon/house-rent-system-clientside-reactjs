@@ -6,8 +6,20 @@ import Signup from "./pages/Auth/Signup";
 import Login from "./pages/Auth/login";
 import Home from "./pages/Home/Home";
 
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: "#008CBA",
+//     },
+//     background: {
+//       default: "#fff",
+//     },
+//   },
+// });
+
 function App() {
   return (
+    // <ThemeProvider theme={theme}>
     <Router>
       <Routes>
         <Route path="/" element={<NavLayout />}>
@@ -20,6 +32,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    // </ThemeProvider>
   );
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 
 const HeaderContent = () => {
   return (
-    <div className="col-md-6 p-5 mt-lg-5">
+    <div className="col-md-6 p-5">
       <h1 className="display-5 animated fadeIn mb-4">
         Find A <span className="text-primary">Perfect Home</span> To Live With
         Your Family
