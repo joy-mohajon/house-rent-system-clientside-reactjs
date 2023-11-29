@@ -60,7 +60,7 @@ const Login = () => {
   };
 
   return (
-    <section className={classes.sign_in}>
+    <section className={classes.signin}>
       <div className={classes.container}>
         <div className={classes.signin_content}>
           <div className={classes.signin_image}>
@@ -82,7 +82,7 @@ const Login = () => {
             >
               <div className={classes.input_group}>
                 <label htmlFor="email">
-                  <i className="zmdi zmdi-email"></i>
+                  <i className={`${classes.zmdi} zmdi zmdi-email`}></i>
                 </label>
                 <input
                   className={classes.input__style_1}
@@ -93,12 +93,12 @@ const Login = () => {
                   onChange={handleEmailChange}
                 />
                 {errors.email && (
-                  <p className="error-message">{errors.email}</p>
+                  <p className={classes.error_message}>{errors.email}</p>
                 )}
               </div>
               <div className={classes.input_group}>
                 <label htmlFor="password">
-                  <i className="zmdi zmdi-lock"></i>
+                  <i className={`${classes.zmdi} zmdi zmdi-lock`}></i>
                 </label>
                 <input
                   className={classes.input__style_1}
@@ -110,11 +110,11 @@ const Login = () => {
                   onChange={handlePasswordChange}
                 />
                 {errors.password && (
-                  <p className="error-message">{errors.password}</p>
+                  <p className={classes.error_message}>{errors.password}</p>
                 )}
                 <button
                   type="button"
-                  id="show-passwd"
+                  className={classes.show_passwd}
                   onClick={togglePasswordVisibility}
                 >
                   <img

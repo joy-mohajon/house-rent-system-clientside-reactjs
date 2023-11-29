@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import notEyeImg from "../../assets/images/eye_closed.svg";
 import eyeImg from "../../assets/images/eye_open.svg";
 import singupImg from "../../assets/images/signup-image.jpg";
-import "./styles.css";
+import classes from "./styles.module.css";
 
 const Signup = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -79,20 +79,20 @@ const Signup = () => {
   };
 
   return (
-    <section className="signup">
-      <div className="container">
-        <div className="signup-content">
-          <div className="signup-form">
-            <h2 className="form-title">Sign up</h2>
+    <section className={classes.signup}>
+      <div className={classes.container}>
+        <div className={classes.signup_content}>
+          <div className={classes.signup_form}>
+            <h2 className={classes.form_title}>Sign up</h2>
             <form
               method="POST"
-              className="register-form"
+              className={classes.register_form}
               id="register-form"
               onSubmit={handleSubmit}
             >
-              <div className="input-group">
+              <div className={classes.input_group}>
                 <label htmlFor="name">
-                  <i className="zmdi zmdi-account material-icons-name"></i>
+                  <i className={`${classes.zmdi} zmdi zmdi-account material-icons-name`}></i>
                 </label>
                 <input
                   type="text"
@@ -102,11 +102,11 @@ const Signup = () => {
                   value={name}
                   onChange={handleNameChange}
                 />
-                {errors.name && <p className="error-message">{errors.name}</p>}
+                {errors.name && <p className={classes.error_message}>{errors.name}</p>}
               </div>
-              <div className="input-group">
+              <div className={classes.input_group}>
                 <label htmlFor="email">
-                  <i className="zmdi zmdi-email"></i>
+                  <i className={`${classes.zmdi} zmdi zmdi-email`}></i>
                 </label>
                 <input
                   type="email"
@@ -117,12 +117,12 @@ const Signup = () => {
                   onChange={handleEmailChange}
                 />
                 {errors.email && (
-                  <p className="error-message">{errors.email}</p>
+                  <p className={classes.error_message}>{errors.email}</p>
                 )}
               </div>
-              <div className="input-group">
+              <div className={classes.input_group}>
                 <label htmlFor="phone">
-                  <i className="zmdi zmdi-phone"></i>
+                  <i className={`${classes.zmdi} zmdi zmdi-phone`}></i>
                 </label>
                 <input
                   type="text"
@@ -133,12 +133,12 @@ const Signup = () => {
                   onChange={handlePhoneChange}
                 />
                 {errors.phone && (
-                  <p className="error-message">{errors.phone}</p>
+                  <p className={classes.error_message}>{errors.phone}</p>
                 )}
               </div>
-              <div className="input-group">
+              <div className={classes.input_group}>
                 <label htmlFor="password">
-                  <i className="zmdi zmdi-lock"></i>
+                  <i className={`${classes.zmdi} zmdi zmdi-lock`}></i>
                 </label>
                 <input
                   type={isPasswordVisible ? "text" : "password"}
@@ -148,11 +148,11 @@ const Signup = () => {
                   onChange={handlePasswordChange}
                 />
                 {errors.password && (
-                  <p className="error-message">{errors.password}</p>
+                  <p className={classes.error_message}>{errors.password}</p>
                 )}
                 <button
                   type="button"
-                  id="show-passwd"
+                  className={classes.show_passwd}
                   onClick={togglePasswordVisibility}
                 >
                   <img
@@ -161,22 +161,22 @@ const Signup = () => {
                   />
                 </button>
               </div>
-              <div className="form-group form-button">
+              <div className={`${classes.form_group} ${classes.form_button}`}>
                 <input
                   type="submit"
                   name="signup"
                   id="signup"
-                  className="form-submit"
+                  className={classes.form_submit}
                   value="Register"
                 />
               </div>
             </form>
           </div>
-          <div className="signup-image">
+          <div className={classes.signup_image}>
             <figure>
               <img src={singupImg} alt="sing up image" />
             </figure>
-            <a href="login.html" className="signup-image-link">
+            <a href="login.html" className={classes.signup_image_link}>
               I am already member
             </a>
           </div>

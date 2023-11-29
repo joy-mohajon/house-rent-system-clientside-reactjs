@@ -292,7 +292,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
         id="step1"
         className={`form-step ${currentStep === 1 ? "visible" : ""}`}
       >
-        <h2 className="title">Basic information</h2>
+        <h3 className="title">Basic information</h3>
         <Stack spacing={2}>
           <Box
             gap={2}
@@ -427,7 +427,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
         id="step2"
         className={`form-step ${currentStep === 2 ? "visible" : ""}`}
       >
-        <h2 className="title">Location information</h2>
+        <h3 className="title">Location information</h3>
 
         <Stack spacing={2}>
           <Box
@@ -513,7 +513,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
         id="step3"
         className={`form-step ${currentStep === 3 ? "visible" : ""}`}
       >
-        <h2 className="title">Additional information</h2>
+        <h3 className="title">Additional information</h3>
         <Stack spacing={2}>
           <Box
             gap={2}

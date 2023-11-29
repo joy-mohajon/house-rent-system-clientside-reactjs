@@ -25,7 +25,7 @@ const Search = () => {
       style={{ padding: "35px" }}
     >
       <div id="particles-js">
-        <div className="search">
+        <div className="container">
           <div className="row g-2">
             <div className="col-md-10">
               <div className="row g-2 align-items-center">

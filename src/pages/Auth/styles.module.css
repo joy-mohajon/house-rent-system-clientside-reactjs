@@ -67,7 +67,7 @@ input[type="checkbox"] {
   -ms-border-radius: 10px;
 }
 
-#show-passwd {
+.show_passwd {
   position: absolute;
   top: 50%;
   right: 1rem;
@@ -78,7 +78,7 @@ input[type="checkbox"] {
   align-items: center;
 }
 
-#show-passwd img {
+.show_passwd img {
   width: 50%;
   height: auto;
 }
@@ -142,7 +142,7 @@ input[type="checkbox"] {
   margin: 0 55px;
 }
 
-.form-title {
+.form_title {
   margin-bottom: 28px;
 }
 
@@ -240,6 +240,16 @@ figure {
   display: inline;
 }
 
+.error_message {
+  color: red;
+  font-size: 14px;
+  line-height: 20px;
+  /* padding: 10px; */
+  /* border: 1px solid #ccc; */
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
 @media screen and (max-width: 1200px) {
   .container {
     width: calc(100% - 30px);
@@ -315,7 +325,7 @@ figure {
     padding: 0 30px;
   }
 
-  .form-title {
+  .form_title {
     text-align: center;
   }
 }
