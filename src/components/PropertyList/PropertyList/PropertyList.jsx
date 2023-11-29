@@ -11,7 +11,7 @@ import "./PropertyList.css";
 
 const PropertyList = () => {
   return (
-    <div className="container-xxl py-5">
+    <div id="propertylist" className="container-xxl py-5">
       <div className="container">
         <PropertyHeader />
         <div className="tab-content">

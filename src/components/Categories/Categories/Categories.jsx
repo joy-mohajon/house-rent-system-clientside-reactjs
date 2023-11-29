@@ -5,7 +5,7 @@ import "./Categories.css";
 
 const Categories = () => {
   return (
-    <div className="container-xxl py-5">
+    <div id="category" className="container-xxl py-5">
       <div className="container">
         <CategoryHeader />
         <div className="row g-4">
