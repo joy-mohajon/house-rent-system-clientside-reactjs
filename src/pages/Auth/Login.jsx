@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import notEyeImg from "../../assets/images/eye_closed.svg";
 import eyeImg from "../../assets/images/eye_open.svg";
 import singinImg from "../../assets/images/signin-image.jpg";
-import "./styles.css";
+import classes from "./styles.module.css";
+
 const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
@@ -59,32 +60,32 @@ const Login = () => {
   };
 
   return (
-    <section className="sign-in">
-      <div className="container">
-        <div className="signin-content">
-          <div className="signin-image">
+    <section className={classes.sign_in}>
+      <div className={classes.container}>
+        <div className={classes.signin_content}>
+          <div className={classes.signin_image}>
             <figure>
               <img src={singinImg} alt="sing up image" />
             </figure>
-            <a href="signup.html" className="signup-image-link">
+            <a href="signup.html" className={classes.signup_image_link}>
               Create an account
             </a>
           </div>
 
-          <div className="signin-form">
-            <h2 className="form-title">Sign In</h2>
+          <div className={classes.signin_form}>
+            <h2 className={classes.form_title}>Sign In</h2>
             <form
               method="POST"
-              className="register-form"
+              className={classes.register_form}
               id="login-form"
               onSubmit={handleSubmit}
             >
-              <div className="input-group">
+              <div className={classes.input_group}>
                 <label htmlFor="email">
                   <i className="zmdi zmdi-email"></i>
                 </label>
                 <input
-                  className="input--style-1"
+                  className={classes.input__style_1}
                   type="email"
                   placeholder="Your Email"
                   name="email"
@@ -95,12 +96,12 @@ const Login = () => {
                   <p className="error-message">{errors.email}</p>
                 )}
               </div>
-              <div className="input-group">
+              <div className={classes.input_group}>
                 <label htmlFor="password">
                   <i className="zmdi zmdi-lock"></i>
                 </label>
                 <input
-                  className="input--style-1"
+                  className={classes.input__style_1}
                   type={isPasswordVisible ? "text" : "password"}
                   placeholder="Your Password"
                   name="password"
@@ -123,12 +124,12 @@ const Login = () => {
                 </button>
               </div>
 
-              <div className="form-group form-button">
+              <div className={`${classes.form_group} ${classes.form_button}`}>
                 <input
                   type="submit"
                   name="signin"
                   id="signin"
-                  className="form-submit"
+                  className={classes.form_submit}
                   value="Log in"
                 />
               </div>
