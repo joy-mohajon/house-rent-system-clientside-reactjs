@@ -22,7 +22,7 @@ const PropertyHeaderRight = () => {
             data-bs-toggle="pill"
             href="#tab-1"
           >
-            For Familly
+            For Family
           </a>
         </li>
         <li className="nav-item me-0">
