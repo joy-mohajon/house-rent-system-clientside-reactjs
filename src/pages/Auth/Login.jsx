@@ -80,48 +80,54 @@ const Login = () => {
               id="login-form"
               onSubmit={handleSubmit}
             >
-              <div className={classes.input_group}>
-                <label htmlFor="email">
-                  <i className={`${classes.zmdi} zmdi zmdi-email`}></i>
-                </label>
-                <input
-                  className={classes.input__style_1}
-                  type="email"
-                  placeholder="Your Email"
-                  name="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                />
+              <div className={classes.form_control}>
+                <div className={classes.input_group}>
+                  <label htmlFor="email">
+                    <i className={`${classes.zmdi} zmdi zmdi-email`}></i>
+                  </label>
+                  <input
+                    className={classes.input__style_1}
+                    type="email"
+                    placeholder="Your Email"
+                    name="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
+                </div>
                 {errors.email && (
                   <p className={classes.error_message}>{errors.email}</p>
                 )}
               </div>
-              <div className={classes.input_group}>
-                <label htmlFor="password">
-                  <i className={`${classes.zmdi} zmdi zmdi-lock`}></i>
-                </label>
-                <input
-                  className={classes.input__style_1}
-                  type={isPasswordVisible ? "text" : "password"}
-                  placeholder="Your Password"
-                  name="password"
-                  id="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
+
+              <div className={classes.form_control}>
+                <div className={classes.input_group}>
+                  <label htmlFor="password">
+                    <i className={`${classes.zmdi} zmdi zmdi-lock`}></i>
+                  </label>
+                  <input
+                    className={classes.input__style_1}
+                    type={isPasswordVisible ? "text" : "password"}
+                    placeholder="Your Password"
+                    name="password"
+                    id="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                  />
+
+                  <button
+                    type="button"
+                    className={classes.show_passwd}
+                    onClick={togglePasswordVisibility}
+                  >
+                    <img
+                      src={isPasswordVisible ? eyeImg : notEyeImg}
+                      alt="Show Password"
+                    />
+                  </button>
+                </div>
                 {errors.password && (
                   <p className={classes.error_message}>{errors.password}</p>
                 )}
-                <button
-                  type="button"
-                  className={classes.show_passwd}
-                  onClick={togglePasswordVisibility}
-                >
-                  <img
-                    src={isPasswordVisible ? eyeImg : notEyeImg}
-                    alt="Show Password"
-                  />
-                </button>
               </div>
 
               <div className={`${classes.form_group} ${classes.form_button}`}>

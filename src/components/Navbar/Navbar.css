@@ -89,6 +89,13 @@
   }
 }
 
+@media (max-width: 992px) {
+  .navbar-toggler:hover {
+    background-color: transparent !important;
+    /* color: white !important; */
+  }
+}
+
 /*** Icon ***/
 .icon {
   padding: 15px;

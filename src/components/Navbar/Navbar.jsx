@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logoImg from "../../assets/images/icon-deal.png";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
+  const navbarRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,13 +23,31 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      // Check if the clicked element is not part of the navbar
+      if (navbarRef.current && !navbarRef.current.contains(e.target)) {
+        // Collapse the navbar if it is not already collapsed
+        const navbarCollapse = document.getElementById("navbarCollapse");
+        if (navbarCollapse.classList.contains("show")) {
+          document.getElementById("navbarToggleBtn").click();
+        }
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
     <div
       className={`container-fluid nav-bar ${
         isSticky ? "sticky-top" : ""
       } bg-transparent`}
     >
-      {/* <h2>hello duniaya</h2> */}
       <nav className="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
         <Link
           to="/"
@@ -45,6 +64,8 @@ const Navbar = () => {
           <h1 className="m-0 text-primary">House Rent</h1>
         </Link>
         <button
+          ref={navbarRef}
+          id="navbarToggleBtn"
           type="button"
           className="navbar-toggler"
           data-bs-toggle="collapse"

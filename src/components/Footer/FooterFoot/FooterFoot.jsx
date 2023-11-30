@@ -11,7 +11,7 @@ const FooterFoot = () => {
               House Rent
             </a>
             , All Rights Reserved. Designed By{" "}
-            <a className="border-bottom" href="https://github.com/joy-mohajon">
+            <a className="border-bottom" href="#">
               JMtech
             </a>
           </div>
