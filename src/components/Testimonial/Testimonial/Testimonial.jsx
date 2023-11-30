@@ -8,11 +8,6 @@ import TestimonialHeader from "../TestimonialHeader/TestimonialHeader";
 import "./Testimonial.css";
 
 const Testimonial = () => {
-  // useEffect(() => {
-  //     new WOW.WOW({
-  //       live: false
-  //     }).init();
-  //   }, [])
   const settings = {
     autoplay: true,
     autoplaySpeed: 1500,
@@ -20,8 +15,8 @@ const Testimonial = () => {
     dots: true,
     infinite: true,
     // arrows: true,
-    prevArrow: <button>{/* <NavigateNextIcon /> */}</button>,
-    nextArrow: <button>{/* <NavigateBeforeIcon /> */}</button>,
+    // prevArrow: <PrevArrow />,
+    // nextArrow: <NextArrow />,
   };
 
   return (

@@ -47,3 +47,28 @@
 .testimonial-carousel .owl-nav .owl-next:hover {
   background: var(--dark);
 }
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.slider-arrow.prev {
+  left: 10px;
+}
+
+.slider-arrow.next {
+  right: 10px;
+
+}
+
+.slider-arrow svg {
+  width: 40px;
+  height: 40px;
+  fill: #fff;
+}
+
+

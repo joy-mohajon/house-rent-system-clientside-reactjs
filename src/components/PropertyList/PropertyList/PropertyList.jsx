@@ -17,12 +17,12 @@ const PropertyList = () => {
         <div className="tab-content">
           <div id="tab-1" className="tab-pane fade show p-0 active">
             <div className="row g-4">
-              <SingleProperty propertyImg={property1} />
-              <SingleProperty propertyImg={property2} />
-              <SingleProperty propertyImg={property3} />
-              <SingleProperty propertyImg={property4} />
-              <SingleProperty propertyImg={property5} />
-              <SingleProperty propertyImg={property6} />
+              <SingleProperty propertyImg={property1} delayTime="0.1s" />
+              <SingleProperty propertyImg={property2} delayTime="0.3s" />
+              <SingleProperty propertyImg={property3} delayTime="0.5s" />
+              <SingleProperty propertyImg={property4} delayTime="0.1s" />
+              <SingleProperty propertyImg={property5} delayTime="0.3s" />
+              <SingleProperty propertyImg={property6} delayTime="0.5s" />
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import React from "react";
 
-const SingleProperty = ({ propertyImg }) => {
+const SingleProperty = ({ propertyImg, delayTime }) => {
   return (
-    <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+    <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay={delayTime}>
       <div className="property-item rounded overflow-hidden">
         <div className="position-relative overflow-hidden">
           <a href="">
