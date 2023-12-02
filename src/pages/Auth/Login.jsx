@@ -67,7 +67,7 @@ const Login = () => {
             <figure>
               <img src={singinImg} alt="sing up image" />
             </figure>
-            <a href="signup.html" className={classes.signup_image_link}>
+            <a href="/signup" className={classes.signup_image_link}>
               Create an account
             </a>
           </div>

@@ -1,11 +1,27 @@
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+import { IconButton } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import logoImg from "../../assets/images/icon-deal.png";
-import "./Navbar.css";
+import logoImg from "../../../assets/images/icon-deal.png";
+import "./HomeNavbar.css";
+import { Menu, MenuItem } from "@mui/joy";
 
 const Navbar = () => {
-  const [isSticky, setIsSticky] = useState(false);
   const navbarRef = useRef(null);
+  const [isSticky, setIsSticky] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const open = Boolean(anchorEl);
+  const ITEM_HEIGHT = 48;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,17 +94,14 @@ const Navbar = () => {
             <Link to="/" className="nav-item nav-link active">
               Home
             </Link>
-            <Link to="/about" className="nav-item nav-link">
-              About
-            </Link>
+            {/* <Link to="/dashboard" className="nav-item nav-link">
+              Dashboard
+            </Link> */}
             <Link to="/login" className="nav-item nav-link">
               Login
             </Link>
             <Link to="/signup" className="nav-item nav-link">
               Signup
-            </Link>
-            <Link to="/contact" className="nav-item nav-link">
-              Contact
             </Link>
           </div>
           <Link
@@ -97,6 +110,40 @@ const Navbar = () => {
           >
             Add Property
           </Link>
+          <div style={{ position: "relative" }}>
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? "long-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                "aria-labelledby": "long-button",
+              }}
+              style={{ zIndex: 9999999 }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: "20ch",
+                },
+              }}
+            >
+              <MenuItem onClick={handleClose}>
+                <Link to={"/dashboard"}>Dashboard</Link>{" "}
+              </MenuItem>
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
+          </div>
         </div>
       </nav>
     </div>
@@ -104,39 +151,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-{
-  /* <div class="nav-item dropdown">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-                >Property</a
-              >
-              <div class="dropdown-menu rounded-0 m-0">
-                <a href="property-list.html" class="dropdown-item"
-                  >Property List</a
-                >
-                <a href="property-type.html" class="dropdown-item"
-                  >Property Type</a
-                >
-                <a href="property-agent.html" class="dropdown-item"
-                  >Property Agent</a
-                >
-              </div>
-            </div>
-            <div class="nav-item dropdown">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-                >Pages</a
-              >
-              <div class="dropdown-menu rounded-0 m-0">
-                <a href="testimonial.html" class="dropdown-item"
-                  >Testimonial</a
-                >
-                <a href="404.html" class="dropdown-item">404 Error</a>
-              </div>
-            </div>  */
-}

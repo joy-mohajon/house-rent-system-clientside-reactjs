@@ -192,7 +192,7 @@ const Signup = () => {
             <figure>
               <img src={singupImg} alt="sing up image" />
             </figure>
-            <a href="login.html" className={classes.signup_image_link}>
+            <a href="/login" className={classes.signup_image_link}>
               I am already member
             </a>
           </div>
