@@ -1,14 +1,16 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import WestIcon from "@mui/icons-material/West";
 import { Box, Typography } from "@mui/joy";
 import { AppBar, IconButton, Menu, MenuItem, Toolbar } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./DashNavbar.css";
 
-const Navbar = () => {
+const DashNavbar = () => {
   const navigate = useNavigate();
+
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [favorite, setFavorite] = useState([]);
@@ -27,7 +29,12 @@ const Navbar = () => {
 
   // navigate to add property
   const handleGetForm = (event) => {
-    navigate("/addproperty");
+    navigate("/add-property");
+  };
+
+  // back to parant page
+  const goBack = () => {
+    navigate(-1);
   };
 
   const handleClose = () => {
@@ -36,10 +43,23 @@ const Navbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ backgroundColor: "transparent" }}>
+      <AppBar
+        position="static"
+        style={{
+          backgroundColor: "white",
+          boxShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+          // borderBottom: "1px solid rgba(240, 240, 240, 1)",
+        }}
+      >
         <Toolbar style={{ minHeight: 55, justifyContent: "flex-end" }}>
-          <Typography className="header_title" variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Property List
+          <Typography
+            className="header_title"
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          >
+            <WestIcon style={{ cursor: "pointer" }} onClick={goBack} />
+            {/* Property List */}
           </Typography>
           <IconButton
             size="large"
@@ -95,7 +115,7 @@ const Navbar = () => {
             <AddCircleIcon className="nav_icon " />
           </IconButton>
           <Link
-            to="/addproperty"
+            to="/add-property"
             className="btn btn-primary px-3 d-none d-lg-flex mx-3"
           >
             Add Property
@@ -106,4 +126,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default DashNavbar;

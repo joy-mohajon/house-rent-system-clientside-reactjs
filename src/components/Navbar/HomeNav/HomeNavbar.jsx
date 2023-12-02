@@ -1,11 +1,11 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
+import { Menu, MenuItem } from "@mui/joy";
 import { IconButton } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logoImg from "../../../assets/images/icon-deal.png";
 import "./HomeNavbar.css";
-import { Menu, MenuItem } from "@mui/joy";
 
 const Navbar = () => {
   const navbarRef = useRef(null);
@@ -94,8 +94,14 @@ const Navbar = () => {
             <Link to="/" className="nav-item nav-link active">
               Home
             </Link>
-            {/* <Link to="/dashboard" className="nav-item nav-link">
+            <Link to="/dashboard" className="nav-item nav-link">
               Dashboard
+            </Link>
+            <Link to="/dashboard" className="nav-item nav-link">
+              Profile
+            </Link>
+            {/* <Link to="/dashboard" className="nav-item nav-link">
+              Logout
             </Link> */}
             <Link to="/login" className="nav-item nav-link">
               Login
@@ -105,12 +111,12 @@ const Navbar = () => {
             </Link>
           </div>
           <Link
-            to="/addproperty"
+            to="/add-property"
             className="btn btn-primary px-3 d-none d-lg-flex"
           >
             Add Property
           </Link>
-          <div style={{ position: "relative" }}>
+          {/* <div style={{ position: "relative" }}>
             <IconButton
               aria-label="more"
               id="long-button"
@@ -143,7 +149,7 @@ const Navbar = () => {
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
-          </div>
+          </div> */}
         </div>
       </nav>
     </div>

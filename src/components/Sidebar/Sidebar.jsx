@@ -68,7 +68,7 @@ const Sidebar = () => {
         <button
           type="button"
           id="sidebarCollapse"
-          className="btn btn-primary"
+          className="btn btn-primary bg-white"
           onClick={() => handleSidebarToggle()}
         >
           <i className="fa fa-bars"></i>
@@ -76,7 +76,7 @@ const Sidebar = () => {
         </button>
       </div>
       <h1>
-        <a href="index.html" className="logo">
+        <a href="/" className="logo">
           House Rent
         </a>
       </h1>

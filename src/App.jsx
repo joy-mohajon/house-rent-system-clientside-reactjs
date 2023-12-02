@@ -6,6 +6,7 @@ import Signup from "./pages/Auth/Signup";
 import Login from "./pages/Auth/login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Home from "./pages/Home/Home";
+import PropertyInfo from "./pages/PropertyInfo/PropertyInfo";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
           <Route index exact element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="addproperty" element={<AddProperty />} />
+          <Route path="add-property" element={<AddProperty />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/property-info" element={<PropertyInfo />} />
       </Routes>
     </Router>
   );
