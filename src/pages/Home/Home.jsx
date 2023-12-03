@@ -11,7 +11,7 @@ const Home = () => {
       <Header />
       <Search />
       <Categories />
-      <PropertyList />
+      <PropertyList bgwhite="false"/>
       <Testimonial />
     </div>
   );

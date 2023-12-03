@@ -20,7 +20,9 @@ const DashNavbar = () => {
   };
 
   // handle favorite product list
-  const handleFarorite = (event) => {};
+  const handleFarorite = (event) => {
+    navigate("/saved-property");
+  };
 
   // handle profile account
   const handleAccount = (event) => {
@@ -38,6 +40,7 @@ const DashNavbar = () => {
   };
 
   const handleClose = () => {
+    navigate("/profile");
     setAnchorEl(null);
   };
 
@@ -57,8 +60,10 @@ const DashNavbar = () => {
             variant="h6"
             component="div"
             sx={{ flexGrow: 1 }}
+            onClick={goBack}
+            style={{ cursor: "pointer" }}
           >
-            <WestIcon style={{ cursor: "pointer" }} onClick={goBack} />
+            <WestIcon />
             {/* Property List */}
           </Typography>
           <IconButton

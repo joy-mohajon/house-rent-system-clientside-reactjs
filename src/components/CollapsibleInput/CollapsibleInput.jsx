@@ -38,22 +38,26 @@ const CollapsibleInput = ({
   onlyOption,
 }) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
-  const handlePanelChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+  // const handlePanelChange = (panel) => (event, isExpanded) => {
+  //   setExpanded(isExpanded ? panel : false);
+  // };
+  const handlePanelShow = () => {
+    setExpanded(!expanded);
   };
 
   const handleRadioChange = (event) => {
     // Update parent state
     onParentStateChange(event.target.value);
   };
-
+  console.log("expanded: ", expanded);
   return (
     <div className={classes.root}>
       <ExpansionPanel
-        expanded={expanded === "panel1"}
-        onChange={handlePanelChange("panel1")}
+        expanded={expanded}
+        // onChange={handlePanelChange("panel1")}
+        onChange={handlePanelShow}
       >
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}

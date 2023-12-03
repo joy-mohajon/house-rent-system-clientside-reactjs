@@ -1,12 +1,22 @@
 import React from "react";
 
-const SingleProperty = ({ propertyImg, delayTime }) => {
+const SingleProperty = ({ propertyImg, delayTime, bgwhite }) => {
+  // Conditionally update styles based on bgwhite
+  const conditionalStyles = {
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
+    borderBottom: "1px solid rgba(240, 240, 240, 1)",
+    backgroundColor: bgwhite === "false" ? "var(--light)" : "white",
+  };
+
   return (
     <div
       className="col-lg-4 py-2 col-md-6 wow fadeInUp"
       data-wow-delay={delayTime}
     >
-      <div className="property-item rounded overflow-hidden">
+      <div
+        className={`property-item rounded overflow-hidden `}
+        style={conditionalStyles}
+      >
         <div className="position-relative overflow-hidden">
           <a href="/property-info">
             <img className="img-fluid" src={propertyImg} alt="" />

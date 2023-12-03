@@ -97,7 +97,7 @@ const Navbar = () => {
             <Link to="/dashboard" className="nav-item nav-link">
               Dashboard
             </Link>
-            <Link to="/dashboard" className="nav-item nav-link">
+            <Link to="/profile" className="nav-item nav-link">
               Profile
             </Link>
             {/* <Link to="/dashboard" className="nav-item nav-link">
