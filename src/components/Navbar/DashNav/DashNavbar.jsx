@@ -7,6 +7,7 @@ import { AppBar, IconButton, Menu, MenuItem, Toolbar } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./DashNavbar.css";
+import { Avatar, Tooltip } from "@material-ui/core";
 
 const DashNavbar = () => {
   const navigate = useNavigate();
@@ -24,11 +25,6 @@ const DashNavbar = () => {
     navigate("/saved-property");
   };
 
-  // handle profile account
-  const handleAccount = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   // navigate to add property
   const handleGetForm = (event) => {
     navigate("/add-property");
@@ -39,8 +35,16 @@ const DashNavbar = () => {
     navigate(-1);
   };
 
-  const handleClose = () => {
-    navigate("/profile");
+  // handle open account menu
+  const handleAccount = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  // handle close account menu
+  const handleClose = (goto) => {
+    if (goto === "profile") {
+      navigate("/profile");
+    }
     setAnchorEl(null);
   };
 
@@ -66,48 +70,7 @@ const DashNavbar = () => {
             <WestIcon />
             {/* Property List */}
           </Typography>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleFarorite}
-            color="inherit"
-          >
-            <FavoriteIcon className="nav_icon" />
-          </IconButton>
-          {auth && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleAccount}
-                color="inherit"
-              >
-                <AccountCircleIcon className="nav_icon" />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
-            </div>
-          )}
+
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -119,6 +82,53 @@ const DashNavbar = () => {
           >
             <AddCircleIcon className="nav_icon " />
           </IconButton>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleFarorite}
+            color="inherit"
+          >
+            <FavoriteIcon className="nav_icon" />
+          </IconButton>
+          {auth && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleAccount} sx={{ p: 0 }}>
+                  <Avatar
+                    alt="Remy Sharp"
+                    style={{ width: 25, height: 25 }}
+                    src=""
+                  />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => handleClose("profile")}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          )}
+
           <Link
             to="/add-property"
             className="btn btn-primary px-3 d-none d-lg-flex mx-3"

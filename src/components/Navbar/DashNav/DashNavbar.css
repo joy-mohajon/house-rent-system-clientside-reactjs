@@ -11,8 +11,9 @@
 }
 .add_property_icon {
   display: none !important;
+  padding: 0 !important;
 }
-@media (max-width: 991.98px) {
+@media (max-width: 768px) {
   .header_title {
     display: none !important;
   }
