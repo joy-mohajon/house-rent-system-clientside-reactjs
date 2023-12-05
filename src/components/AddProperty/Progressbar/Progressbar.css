@@ -51,9 +51,7 @@
 .step::after {
   content: "";
   position: absolute;
-  /* width: 197px; */
   width: 200px;
-  /* height: 3px; */
   height: 2px;
   background-color: #d7d7c3;
   right: 20px;
@@ -99,4 +97,13 @@ li .active::after {
 
 .visible {
   display: block;
+}
+
+@media (max-width: 768px) {
+  .main-bar li {
+    margin: 0 50px;
+  }
+  .step::after {
+    width: 100px;
+  }
 }
