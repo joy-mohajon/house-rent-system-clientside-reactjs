@@ -21,7 +21,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0",
     "react-select2": "^4.0.3",
-    "select2": "^4.1.0-rc.0"
+    "select2": "^4.1.0-rc.0",
+    "yarn": "^1.22.21"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
