@@ -47,8 +47,10 @@ input[type="checkbox"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 98vh;
+  /* height: 98vh; */
   overflow: hidden;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 .container {
   width: 850px;

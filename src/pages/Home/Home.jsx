@@ -7,11 +7,11 @@ import Testimonial from "../../components/Testimonial/Testimonial/Testimonial";
 
 const Home = () => {
   return (
-    <div className="container-xxl bg-white p-0">
+    <div className="bg-white p-0">
       <Header />
       <Search />
       <Categories />
-      <PropertyList bgwhite="false"/>
+      <PropertyList bgwhite="false" />
       <Testimonial />
     </div>
   );
