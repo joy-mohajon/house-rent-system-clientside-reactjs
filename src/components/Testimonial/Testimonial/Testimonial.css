@@ -48,21 +48,28 @@
   background: var(--dark);
 }
 
-.slider-arrow {
+.slick-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   z-index: 10;
+  fill: var(--light) !important;
+  background-color: var(--primary);
+  border-radius: 50%;
 }
 
-.slider-arrow.prev {
-  left: 10px;
+.slick-arrow:hover {
+  background-color: var(--light);
+  fill: var(--primary) !important;
 }
 
-.slider-arrow.next {
-  right: 10px;
+.slider-arrow.slick-prev {
+  right: 100px !important;
+}
 
+.slider-arrow.slick-next {
+  left: 100px !important;
 }
 
 .slider-arrow svg {
@@ -70,5 +77,3 @@
   height: 40px;
   fill: #fff;
 }
-
-

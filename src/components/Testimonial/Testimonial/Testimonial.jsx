@@ -6,17 +6,52 @@ import testImg3 from "../../../assets/images/testimonial-3.jpg";
 import SingleTestimonial from "../SingleTestimonial/SingleTestimonial";
 import TestimonialHeader from "../TestimonialHeader/TestimonialHeader";
 import "./Testimonial.css";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 const Testimonial = () => {
+  // const settings = {
+  //   autoplay: true,
+  //   autoplaySpeed: 1500,
+  //   slidesToShow: 1,
+  //   dots: true,
+  //   infinite: true,
+  //   // arrows: true,
+  //   // prevArrow: <PrevArrow />,
+  //   // nextArrow: <NextArrow />,
+  //   nextArrow: <BiArrowRight />,
+  //   prevArrow: <BiArrowLeft />,
+  //   responsive: [
+  //     {
+  //       breakpoint: 992,
+  //       settings: {
+  //         slidesToShow: 2,
+  //         slidesToScroll: 1,
+  //       },
+  //     },
+  //   ]
+  // };
+
   const settings = {
     autoplay: true,
-    autoplaySpeed: 1500,
-    slidesToShow: 2,
-    dots: true,
+    autoplaySpeed: 1000,
+    dots: false,
     infinite: true,
-    // arrows: true,
-    // prevArrow: <PrevArrow />,
-    // nextArrow: <NextArrow />,
+    speed: 1000,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    margin: 24,
+    nextArrow: <NavigateNextIcon className="slider-arrow"/>,
+    prevArrow: <KeyboardArrowLeftIcon />,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
