@@ -37,11 +37,11 @@ const Testimonial = () => {
     autoplaySpeed: 1000,
     dots: false,
     infinite: true,
-    speed: 1000,
+    speed: 1500,
     slidesToShow: 2,
     slidesToScroll: 1,
     margin: 24,
-    nextArrow: <NavigateNextIcon className="slider-arrow"/>,
+    nextArrow: <NavigateNextIcon />,
     prevArrow: <KeyboardArrowLeftIcon />,
     responsive: [
       {
