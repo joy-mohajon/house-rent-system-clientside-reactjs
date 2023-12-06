@@ -5,7 +5,7 @@ import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 const Profile = () => {
   return (
-    <div className="container">
+    <div className="container h-100">
       <DashNavbar />
       <ProfileDetails />
       <PropertyTable />
