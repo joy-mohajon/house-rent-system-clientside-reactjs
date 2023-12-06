@@ -29,13 +29,13 @@ const PropertyTable = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr style={{ verticalAlign: "middle" }}>
                 <td>1</td>
                 <td>Sample Property 1</td>
                 <td>
                   <a
                     href="#"
-                    className="btn-outline-primary"
+                    className="btn btn-outline-primary"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="View"
@@ -44,7 +44,7 @@ const PropertyTable = () => {
                   </a>
                   <a
                     href="#"
-                    className="btn-outline-success"
+                    className="btn btn-outline-success mx-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit"
@@ -53,33 +53,9 @@ const PropertyTable = () => {
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Sample Property 2</td>
-                <td>
-                  <a
-                    href="#"
-                    className="btn-outline-primary"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="View"
-                  >
-                    <i className="material-icons">visibility</i>
-                  </a>
-                  <a
-                    href="#"
-                    className="btn btn-outline-success"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Edit"
-                  >
-                    <i className="material-icons">edit</i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Sample Property 2</td>
+              <tr style={{ verticalAlign: "middle" }}>
+                <td>1</td>
+                <td>Sample Property 1</td>
                 <td>
                   <a
                     href="#"
@@ -92,7 +68,7 @@ const PropertyTable = () => {
                   </a>
                   <a
                     href="#"
-                    className="btn btn-outline-success"
+                    className="btn btn-outline-success mx-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit"
@@ -101,9 +77,9 @@ const PropertyTable = () => {
                   </a>
                 </td>
               </tr>
-              <tr>
+              <tr style={{ verticalAlign: "middle" }}>
                 <td>2</td>
-                <td>Sample Property 2</td>
+                <td>Sample Property 1</td>
                 <td>
                   <a
                     href="#"
@@ -116,7 +92,7 @@ const PropertyTable = () => {
                   </a>
                   <a
                     href="#"
-                    className="btn btn-outline-success"
+                    className="btn btn-outline-success mx-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit"
@@ -125,9 +101,9 @@ const PropertyTable = () => {
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Sample Property 2</td>
+              <tr style={{ verticalAlign: "middle" }}>
+                <td>3</td>
+                <td>Sample Property 1</td>
                 <td>
                   <a
                     href="#"
@@ -140,7 +116,7 @@ const PropertyTable = () => {
                   </a>
                   <a
                     href="#"
-                    className="btn btn-outline-success"
+                    className="btn btn-outline-success mx-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit"
@@ -149,9 +125,9 @@ const PropertyTable = () => {
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Sample Property 2</td>
+              <tr style={{ verticalAlign: "middle" }}>
+                <td>4</td>
+                <td>Sample Property 1</td>
                 <td>
                   <a
                     href="#"
@@ -164,7 +140,7 @@ const PropertyTable = () => {
                   </a>
                   <a
                     href="#"
-                    className="btn btn-outline-success"
+                    className="btn btn-outline-success mx-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit"
@@ -173,9 +149,9 @@ const PropertyTable = () => {
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Sample Property 2</td>
+              <tr style={{ verticalAlign: "middle" }}>
+                <td>5</td>
+                <td>Sample Property 1</td>
                 <td>
                   <a
                     href="#"
@@ -188,7 +164,7 @@ const PropertyTable = () => {
                   </a>
                   <a
                     href="#"
-                    className="btn btn-outline-success"
+                    className="btn btn-outline-success mx-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit"
@@ -197,9 +173,9 @@ const PropertyTable = () => {
                   </a>
                 </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Sample Property 2</td>
+              <tr style={{ verticalAlign: "middle" }}>
+                <td>6</td>
+                <td>Sample Property 1</td>
                 <td>
                   <a
                     href="#"
@@ -212,7 +188,7 @@ const PropertyTable = () => {
                   </a>
                   <a
                     href="#"
-                    className="btn btn-outline-success"
+                    className="btn btn-outline-success mx-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit"
