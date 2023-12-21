@@ -8,14 +8,23 @@ import {
 import CustomButton from "../CustomButton/CustomButton";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import "./search.css";
+import { useNavigation } from "react-router-dom";
 
 const Search = () => {
+  const navigation = useNavigation();
+
   const [category, setCategory] = useState("");
   const [propertyType, setPropertyType] = useState("");
   const [division, setDivision] = useState("");
 
   const searchHandler = (e) => {
     e.preventDefault();
+
+    navigation.navigate('/dashboard', {
+      category: category,
+      propertyType: propertyType,
+      division: division,
+    });
   };
 
   return (
