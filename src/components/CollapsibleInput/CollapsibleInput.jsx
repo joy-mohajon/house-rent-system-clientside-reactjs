@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   categoryLabel: {
     // backgroundColor: '#f0f0f0',
     borderBottom: "1px solid rgba(240, 240, 240, 1)",
+    borderRight: "1px solid rgba(240, 240, 240, 1)",
     paddingLeft: "2em",
     fontWeight: "bold",
     // padding: "0px !important",
@@ -51,7 +52,7 @@ const CollapsibleInput = ({
     // Update parent state
     onParentStateChange(event.target.value);
   };
-  console.log("expanded: ", expanded);
+
   return (
     <div className={classes.root}>
       <ExpansionPanel

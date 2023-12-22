@@ -7,20 +7,30 @@ import {
 } from "../../config/AddPropertyForm/SelectOptions";
 import CollapsibleInput from "../CollapsibleInput/CollapsibleInput";
 import "./Sidebar.css";
+import { useSearchContext } from "../../contexts/SearchContextProvider";
+import { Box, Slider } from "@mui/joy";
+import { styled } from "@mui/system";
 
 const Sidebar = () => {
   const [sidebarActive, setSidebarActive] = useState(false);
 
-  // Basic information
-  const [category, setCategory] = useState("");
-  const [propertyType, setPropertyType] = useState("");
-  const [availableFrom, setAvailableFrom] = useState("");
-  const [rent, setRent] = useState(null);
-
-  // location information
-  const [division, setDivision] = useState("");
-  const [district, setDistrict] = useState("");
-  const [thana, setThana] = useState("");
+  // Use the custom hook to get the context value
+  const {
+    category,
+    setCategory,
+    propertyType,
+    setPropertyType,
+    availableFrom,
+    setAvailableFrom,
+    rent,
+    setRent,
+    division,
+    setDivision,
+    district,
+    setDistrict,
+    thana,
+    setThana,
+  } = useSearchContext();
 
   //selected districts, upazilas
   const [selectedDistrict, setSelectedDistrict] = useState([]);
@@ -30,6 +40,10 @@ const Sidebar = () => {
   const handleSidebarToggle = () => {
     setSidebarActive(!sidebarActive);
   };
+
+  function valueText(value) {
+    return `${value}°C`;
+  }
 
   // Effects for dynamic dropdowns
   useEffect(() => {
@@ -81,6 +95,23 @@ const Sidebar = () => {
         </a>
       </h1>
       <ul className="list-unstyled components mb-5">
+        <Box sx={{ mx: "auto", width: "80%" }}>
+          <Slider
+            getAriaLabel={() => "Price range"}
+            // value={[10, 50]}
+            min={1000}
+            max={100000}
+            onChange={(e) => setRent(e.target.value)}
+            valueLabelDisplay="auto"
+            getAriaValueText={valueText}
+            sx={{
+              "--Slider-trackBackground": "#00b98e !important",
+              "--Slider-markBackground": "#00b98e",
+              "--Slider-thumbColor": "#0e2e50",
+              marginTop: "20px",
+            }}
+          />
+        </Box>
         <CollapsibleInput
           parentState={category}
           onParentStateChange={(value) => setCategory(value)}
