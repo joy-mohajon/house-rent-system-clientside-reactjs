@@ -17,9 +17,22 @@ import CustomInput from "../../CustomInput/CustomInput";
 import CustomTextarea from "../../CustomInput/CustomTextarea";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import "./PropertyForm.css";
+import { useParams } from 'react-router-dom';
+
 
 const PropertyForm = ({ currentStep, stepHandler }) => {
   const navigate = useNavigate();
+  const [loaduser, setLoaduser] = useState({});
+  const {id} = useParams();
+
+  // data load
+    useEffect( ()=>{
+          fetch(`http://localhost:5000/users/${id}`)
+          .then(data => data.json())
+          .then(data => {setLoaduser(data);
+            console.log('user = ',data)
+          });
+      } , [])
 
   // Step 1: basic information
   const [category, setCategory] = useState("");
@@ -601,7 +614,57 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               errorMessages={errorMessages.additionalInfo}
             />
           </Box>
+
         </Stack>
+        <br />
+        <div>
+          <h3>About Landlord</h3>
+          <br />
+          {/* name */}
+          <div className="form-group mb-2">
+              <label htmlFor="inputName">Name:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputName"
+                    defaultValue={loaduser.name}  readonly  
+                    placeholder='Your Name'
+                  />
+          </div>
+          {/* email */}
+          <div className="form-group mb-2">
+              <label htmlFor="inputName">Email:</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="inputName"
+                        
+                    placeholder='Your Email'
+                  />
+          </div>
+          {/* phone */}
+          <div className="form-group mb-2">
+              <label htmlFor="inputName">Phone:</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="inputName"
+                        
+                    placeholder='Your Phone No'
+                  />
+          </div>
+          {/* address */}
+          <div className="form-group mb-2">
+              <label htmlFor="inputName">Address:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputName"
+                        
+                    placeholder='Your Address'
+                  />
+          </div>
+        </div>
 
         <div className="d-flex justify-content-between align-items-center mt-4">
           <CustomButton

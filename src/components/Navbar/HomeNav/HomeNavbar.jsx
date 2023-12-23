@@ -1,16 +1,40 @@
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import { Menu, MenuItem } from "@mui/joy";
-import { IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logoImg from "../../../assets/images/icon-deal.png";
+import useAuth from "../../../pages/Auth/useAuth/useAuth";
 import "./HomeNavbar.css";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const navbarRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const {user, logoutUser} = useAuth();
+
+  // logout
+  const logoutFunction =() =>{
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be signed out.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Signed Out!'
+        }).then(result =>{
+            if (result.isConfirmed){
+                logoutUser();
+                Swal.fire(
+                        'Signed out!',
+                        'You are signed out.',
+                        'success'
+                )
+            }
+        }) 
+        refetch()
+    }
 
   const open = Boolean(anchorEl);
   const ITEM_HEIGHT = 48;
@@ -94,28 +118,37 @@ const Navbar = () => {
             <Link to="/" className="nav-item nav-link active">
               Home
             </Link>
-            <Link to="/dashboard" className="nav-item nav-link">
-              Dashboard
+            <Link to="/apartments" className="nav-item nav-link">
+              Apartments
             </Link>
             <Link to="/profile" className="nav-item nav-link">
               Profile
             </Link>
-            {/* <Link to="/dashboard" className="nav-item nav-link">
-              Logout
-            </Link> */}
-            <Link to="/login" className="nav-item nav-link">
-              Login
-            </Link>
-            <Link to="/signup" className="nav-item nav-link">
-              Signup
-            </Link>
+            
+
+            {/* login/logout */}
+            {
+              user?.email ? 
+              <div className="navbar-nav ms-auto">
+                  <Link to="/dashboard" className="nav-item nav-link">
+                    Dashboard
+                  </Link>
+                  <Button className="nav-item nav-link logOut" onClick={logoutFunction} >Logout</Button>
+              </div>
+              :
+              <div className="navbar-nav ms-auto">
+                <Link to="/signup" className="nav-item nav-link">
+                  Signup
+                </Link>
+                <Link to="/login" className="nav-item nav-link">
+                  Login
+                </Link>
+              </div>
+              
+            }
+            
           </div>
-          <Link
-            to="/add-property"
-            className="btn btn-primary px-3 d-none d-lg-flex"
-          >
-            Add Property
-          </Link>
+          
           {/* <div style={{ position: "relative" }}>
             <IconButton
               aria-label="more"

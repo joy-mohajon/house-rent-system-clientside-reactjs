@@ -8,10 +8,10 @@ import {
 import CustomButton from "../CustomButton/CustomButton";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import "./search.css";
-import { useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
-  const navigation = useNavigation();
+  const navigate = useNavigate();
 
   const [category, setCategory] = useState("");
   const [propertyType, setPropertyType] = useState("");
@@ -20,10 +20,12 @@ const Search = () => {
   const searchHandler = (e) => {
     e.preventDefault();
 
-    navigation.navigate('/dashboard', {
-      category: category,
-      propertyType: propertyType,
-      division: division,
+    navigate("/apartments", {
+      state: {
+        homeCategory: category,
+        homePropertyType: propertyType,
+        homeDivision: division,
+      },
     });
   };
 
