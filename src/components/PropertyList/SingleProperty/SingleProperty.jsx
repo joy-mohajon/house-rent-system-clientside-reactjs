@@ -138,7 +138,7 @@ const SingleProperty = ({ propertyImg, delayTime, bgwhite, rentData }) => {
           <small className="text-primary "> Code: {code} </small>
           {/* name */}
           <a className="d-block h5 mb-2 text-truncate" onClick={handleView}>
-            {name}
+            Golden urban house for {category}
           </a>
 
           {/* division */}

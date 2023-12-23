@@ -5,11 +5,6 @@ import { useSearchContext } from "../../contexts/SearchContextProvider";
 import useRent from "../../Hooks/useRent";
 import { useLocation } from "react-router";
 
-<<<<<<< HEAD
-const Dashboard = ({ route }) => {
-  // const { category, propertyType } = route.params;
-  // console.log("category: ", category)
-=======
 const Dashboard = () => {
   const location = useLocation();
   const { homeCategory, homePropertyType, homeDivision } = location.state || "";
@@ -88,7 +83,6 @@ const Dashboard = () => {
     rent,
     thana,
   ]);
->>>>>>> db9077a1d6e4bb6abd826b967e8611b2165468bb
 
   return (
     <div className="w-100 d-flex align-items-stretch">

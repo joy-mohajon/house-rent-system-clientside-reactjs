@@ -35,44 +35,6 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <AuthProvider>
-<<<<<<< HEAD
-         <QueryClientProvider client={queryClient} >
-            <Router>
-              <Routes>
-                  <Route path="/" element={<NavLayout />}>
-                    <Route index exact element={<Home />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} />
-                    {/* <Route path="add-property" element={<AddProperty />} /> */}
-                  </Route>
-                  {/* apartments */}
-                  <Route path="/apartments" element={<Dashboard />} />
-                  {/* dynamic route */}
-                  <Route path="apartmentsinfo/:id" element={<PropertyInfo />} />
-                  
-                  {/* booking page: private route, dynamic route */}
-                  <Route path="booking/:id" element={ 
-                    <PrivateRoute>
-                      <BookingPage></BookingPage>
-                    </PrivateRoute>
-                  } ></Route>
-
-                  {/* dashboard page , private route, nested route */}
-                  <Route path='/dashboard' element={ 
-                    <PrivateRoute>
-                      <DashboardPage></DashboardPage>
-                    </PrivateRoute>
-                   } > 
-                      {/* home: dynamic route***** */}
-                      <Route path='adminhome' element={ <AdminHome></AdminHome> } > </Route>
-
-                      {/* admin: manage users */}
-                      <Route path='manageusers' element={ <ManageUsers></ManageUsers> } ></Route>
-                      {/* manage review */}
-                      <Route path='managereview' element={ <ManageReview></ManageReview> } ></Route>
-                      {/* all apartment */}
-                      <Route path='all' element={ <AllApartment></AllApartment> } ></Route>
-=======
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
@@ -103,7 +65,6 @@ function App() {
                 </PrivateRoute>
               }
             ></Route>
->>>>>>> db9077a1d6e4bb6abd826b967e8611b2165468bb
 
             {/* dashboard page , private route, nested route */}
             <Route

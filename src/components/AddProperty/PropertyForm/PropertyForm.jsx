@@ -19,6 +19,9 @@ import CustomInput from "../../CustomInput/CustomInput";
 import CustomTextarea from "../../CustomInput/CustomTextarea";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import "./PropertyForm.css";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { Apartment } from "@material-ui/icons";
 
 const PropertyForm = ({ currentStep, stepHandler }) => {
   const navigate = useNavigate();
@@ -44,9 +47,13 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   // Step 3: Additional infomation
   const [availableFrom, setAvailableFrom] = useState("");
   const [rent, setRent] = useState(null);
-  const [image, setImage] = useState(null);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
   const [video, setVideo] = useState(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [addBy, setAddBy] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   //selected districts, upazilas
   const [selectedDistrict, setSelectedDistrict] = useState([]);
@@ -67,6 +74,12 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     rent: "",
     gender: "",
   });
+
+  const isValidPhoneNumber = (phone) => {
+    // You can implement your own phone number validation logic here
+    // For a simple example, this checks if it contains only digits
+    return /^\d+$/.test(phone);
+  };
 
   // Validation functions 1
   const validateStep1 = () => {
@@ -138,6 +151,20 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
       errors.rent = "Rent is required";
     }
 
+    if (!addBy || addBy.trim() === "") {
+      errors.addBy = "Your name is required";
+    }
+
+    if (!email || email.trim() === "") {
+      errors.email = "Your Email is required";
+    }
+
+    if (!phone || phone.trim() === "") {
+      errors.phone = "Phone number is required";
+    } else if (!isValidPhoneNumber(phone)) {
+      errors.phone = "Invalid phone number format";
+    }
+
     setErrorMessages({ ...errorMessages, ...errors });
 
     return Object.keys(errors).length === 0; // Returns true if no errors
@@ -159,8 +186,31 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     stepHandler(step);
   };
 
+  // make image api
+  async function uploadImage(formData) {
+    try {
+      const response = await axios.post(img_hosting_url, formData);
+      return response.data;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+  }
+
+  // add new Apartment api
+  async function addApartment(newApartment) {
+    console.log("new appartment: ===", newApartment);
+    try {
+      const response = await axios.post("/rent", newApartment);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding apartment:", error);
+      throw error;
+    }
+  }
+
   // Form submission
-  const onSubmit = (data, e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     // Validate before submission
@@ -183,43 +233,84 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     formData.append("gender", gender);
     formData.append("additionalInfo", additionalInfo);
 
-    // Append image and video files if they exist
-    if (image) {
-      formData.append("image", data.img[0]);
+    try {
+      const formDataImg1 = new FormData();
+      formDataImg1.append("image", image1);
+
+      const formDataImg2 = new FormData();
+      formDataImg2.append("image", image2);
+
+      const imgResponse1 = await uploadImage(formDataImg1);
+      const imgResponse2 = await uploadImage(formDataImg2);
+
+      if (imgResponse1.success && imgResponse2.success) {
+        const imgUrl1 = imgResponse1.data.display_url;
+        const imgUrl2 = imgResponse2.data.display_url;
+
+        console.log("Image 1 URL:", imgUrl1);
+        console.log("Image 2 URL:", imgUrl2);
+
+        const newApartment = {
+          category,
+          img1: imgUrl1,
+          img2: imgUrl2,
+          gender,
+          propertytype: propertyType,
+          balcony,
+          bedroom,
+          bathroom,
+          floor,
+          division,
+          district,
+          thana,
+          availablefrom: availableFrom,
+          rent: parseFloat(rent),
+          additionalInfo,
+          addBy,
+          email,
+          phone,
+        };
+
+        const apartmentResponse = await addApartment(newApartment);
+
+        if (apartmentResponse.insertedId) {
+          reset();
+
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Added successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(
+        "Error handling image upload and apartment addition:",
+        error
+      );
     }
 
+    // Append image and video files if they exist
+    // if (image1) {
+    //   formData.append("image", image1);
+    // }
+    // if (image2) {
+    //   formData.append("image2", image2);
+    // }
     // if (video) {
     //   formData.append("video", video);
     // }
 
-    console.log("Form submitted successfully!", formData);
-    console.log("district value: ===========", division, district, thana);
-    console.log("Form submitted successfully! catgory", category);
-    console.log("Form submitted successfully! distict", district);
-    console.log("Form submitted successfully! available from", availableFrom);
-    console.log("Form submitted successfully! rent", rent);
-    console.log("Form submitted successfully! additional", additionalInfo);
-    console.log("Form submitted successfully! iamge", image);
-
-    // try {
-    //   const response = await axios.post("your-api-endpoint", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
-
-    //   // Handle successful submission
-    //   if (response.status === 200) {
-    //     // Handle success (e.g., show a success message, redirect, etc.)
-    //     console.log("Form submitted successfully!", formData);
-    //   } else {
-    //     // Handle other status codes or server errors
-    //     console.error("Error submitting form:", response.statusText);
-    //   }
-    // } catch (error) {
-    //   // Handle network errors or other issues
-    //   console.error("Error submitting form:", error.message);
-    // }
+    // console.log("Form submitted successfully!", formData);
+    // console.log("district value: ===========", division, district, thana);
+    // console.log("Form submitted successfully! catgory", category);
+    // console.log("Form submitted successfully! distict", district);
+    // console.log("Form submitted successfully! available from", availableFrom);
+    // console.log("Form submitted successfully! rent", rent);
+    // console.log("Form submitted successfully! additional", additionalInfo);
+    // console.log("Form submitted successfully! iamge", image2);
 
     // fetch(img_hosting_url, {
     //   method: "POST",
@@ -230,33 +321,13 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     //     if (imgResponse.success) {
     //       const imgUrl = imgResponse.data.display_url;
     //       console.log(imgUrl);
-    //       const {
-    //         name,
-    //         category,
-    //         gender,
-    //         propertytype,
-    //         balcony,
-    //         bedroom,
-    //         bathroom,
-    //         floor,
-    //         division,
-    //         district,
-    //         thana,
-    //         availablefrom,
-    //         rent,
-    //         summary,
-    //         addedby,
-    //         phone,
-    //         email,
-    //       } = data;
 
     //       const newApartment = {
-    //         name,
     //         category,
     //         img1: imgUrl,
     //         img2: imgUrl,
     //         gender,
-    //         propertytype,
+    //         propertytype: propertyType,
     //         balcony,
     //         bedroom,
     //         bathroom,
@@ -264,15 +335,15 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     //         division,
     //         district,
     //         thana,
-    //         availablefrom,
-    //         rent: parseFloat(price),
-    //         summary,
-    //         addedby,
-    //         phone,
+    //         availablefrom: availableFrom,
+    //         rent: parseFloat(rent),
+    //         additionalInfo,
+    //         addBy,
     //         email,
+    //         phone,
     //       };
 
-    //       axios
+    //       axiosSecure
     //         .post("/rent", newApartment)
 
     //         .then((data) => {
@@ -287,14 +358,12 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     //               timer: 1500,
     //             });
     //           }
-
     //         });
-    //       console.log('apartment data = ',newApartment)
-
+    //       console.log("apartment data = ", newApartment);
     //     }
     //   });
 
-    // navigate("/");
+    navigate("/");
   };
 
   // useEffect to clear specific error messages based on state updates
@@ -315,6 +384,9 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
       if (availableFrom !== "") updatedErrors.availableFrom = "";
       if (rent !== null) updatedErrors.rent = "";
       if (gender !== "") updatedErrors.gender = "";
+      if (addBy !== "") updatedErrors.addBy = "";
+      if (email !== "") updatedErrors.email = "";
+      if (phone !== "") updatedErrors.phone = "";
 
       return updatedErrors;
     });
@@ -331,6 +403,9 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     thana,
     availableFrom,
     rent,
+    addBy,
+    email,
+    phone,
   ]);
 
   // Effects for dynamic dropdowns
@@ -365,14 +440,14 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   }, [district]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmitHandler}>
       {/* Step 1: Item Details  */}
       <div
         id="step1"
         className={`form-step ${currentStep === 1 ? "visible" : ""}`}
       >
         <h3 className="title">Basic information</h3>
-        {/* announcement */}
+        {/* announcement
         <div className="form-group mb-2">
           <label htmlFor="inputName">Announcement:</label>
           <input
@@ -380,9 +455,9 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
             className="form-control"
             id="inputName"
             placeholder="Your Announcement"
-            {...register("name", { required: true })}
+            // {...register("name", { required: true })}
           />
-        </div>
+        </div> */}
         <Stack spacing={2}>
           <Box
             gap={2}
@@ -404,7 +479,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={categoryOptions}
               errorMessages={errorMessages.category}
               selectClasses={selectClasses}
-              {...register("category", { required: true })}
+              // {...register("category", { required: true })}
             />
 
             {/* property input field  */}
@@ -415,7 +490,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={propertyTypeOptions}
               errorMessages={errorMessages.propertyType}
               selectClasses={selectClasses}
-              {...register("propertytype", { required: true })}
+              // {...register("propertytype", { required: true })}
             />
           </Box>
           <Box
@@ -438,7 +513,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={genderOptions}
               errorMessages={errorMessages.gender}
               selectClasses={selectClasses}
-              {...register("gender", { required: true })}
+              // {...register("gender", { required: true })}
             />
           </Box>
           <Box
@@ -461,7 +536,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={bedroomOptions}
               errorMessages={errorMessages.bedroom}
               selectClasses={selectClasses}
-              {...register("bedroom", { required: true })}
+              // {...register("bedroom", { required: true })}
             />
 
             {/* bathroom input field  */}
@@ -472,7 +547,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setBathroom(type)}
               errorMessages={errorMessages.bathroom}
               selectClasses={selectClasses}
-              {...register("bathroom", { required: true })}
+              // {...register("bathroom", { required: true })}
             />
           </Box>
           <Box
@@ -495,7 +570,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setBalcony(type)}
               errorMessages={errorMessages.balcony}
               selectClasses={selectClasses}
-              {...register("balcony", { required: true })}
+              // {...register("balcony", { required: true })}
             />
 
             {/* floor no input field  */}
@@ -506,7 +581,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setFloor(type)}
               errorMessages={errorMessages.floorno}
               selectClasses={selectClasses}
-              {...register("floor", { required: true })}
+              // {...register("floor", { required: true })}
             />
           </Box>
         </Stack>
@@ -548,7 +623,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setDivision(data)}
               errorMessages={errorMessages.division}
               selectClasses={selectClasses}
-              {...register("division", { required: true })}
+              // {...register("division", { required: true })}
             />
 
             {/* district input field  */}
@@ -562,7 +637,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setDistrict(data)}
               errorMessages={errorMessages.district}
               selectClasses={selectClasses}
-              {...register("district", { required: true })}
+              // {...register("district", { required: true })}
             />
           </Box>
           <Box
@@ -586,7 +661,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setThana(data)}
               errorMessages={errorMessages.thana}
               selectClasses={selectClasses}
-              {...register("thana", { required: true })}
+              // {...register("thana", { required: true })}
             />
           </Box>
         </Stack>
@@ -635,8 +710,9 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
                 className="form-control"
                 id="inputName"
                 placeholder="Your Announcement"
-                errorMessages={errorMessages.thana}
-                {...register("img1", { required: true })}
+                onChange={(e) => setImage1(e.target.files[0])}
+                // errorMessages={errorMessages.thana}
+                // {...register("img1", { required: true })}
                 required
               />
             </div>
@@ -649,8 +725,9 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
                 className="form-control"
                 id="inputName"
                 placeholder="Your Announcement"
-                errorMessages={errorMessages.thana}
-                {...register("img2", { required: true })}
+                onChange={(e) => setImage2(e.target.files[0])}
+                // errorMessages={errorMessages.thana}
+                // {...register("img2", { required: true })}
               />
             </div>
           </Box>
@@ -676,7 +753,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setAvailableFrom(type)}
               errorMessages={errorMessages.availableFrom}
               selectClasses={selectClasses}
-              {...register("availablefrom", { required: true })}
+              // {...register("availablefrom", { required: true })}
             />
 
             {/* Rent input field  */}
@@ -686,7 +763,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={rent}
               setInputValue={(type) => setRent(type)}
               errorMessages={errorMessages.rent}
-              {...register("rent", { required: true })}
+              // {...register("rent", { required: true })}
             />
           </Box>
 
@@ -704,51 +781,56 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
           >
             {/* additional information: input field  */}
             <CustomTextarea
-              label="ADITINAL INFORMATIONS"
+              label="ADITIONAL ADDRESS"
               value={additionalInfo}
               setInputValue={(info) => setAdditionalInfo(info)}
               errorMessages={errorMessages.additionalInfo}
-              {...register("summary", { required: true })}
+              // {...register("summary", { required: true })}
             />
           </Box>
         </Stack>
         <br />
         <div>
-          <h3>About Landlord</h3>
-          <br />
-          {/* name */}
-          <div className="form-group mb-2">
-            <label htmlFor="inputName">Name:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="inputaddedby"
-              placeholder="Your Name"
-              {...register("addedby", { required: true })}
-            />
-          </div>
-          {/* email */}
-          <div className="form-group mb-2">
-            <label htmlFor="inputName">Email:</label>
-            <input
-              type="email"
-              className="form-control"
-              id="inputName"
-              placeholder="Your Email"
-              {...register("email", { required: true })}
-            />
-          </div>
-          {/* phone */}
-          <div className="form-group mb-2">
-            <label htmlFor="inputName">Phone:</label>
-            <input
-              type="number"
-              className="form-control"
-              id="inputName"
-              placeholder="Your Phone No"
-              {...register("phone", { required: true })}
-            />
-          </div>
+          {/* <h3>About Landlord</h3> */}
+          <Stack spacing={2}>
+            <Box
+              gap={2}
+              display="flex"
+              justifyContent="space-around"
+              alignItems="center"
+              sx={{
+                flexDirection: "column", // Stack items vertically on smaller screens
+                "@media (min-width: 600px)": {
+                  flexDirection: "row", // Stack items horizontally on larger screens
+                },
+              }}
+            >
+              {/* name */}
+              <CustomInput
+                label="YOUR NAME"
+                type={"text"}
+                value={addBy}
+                setInputValue={(name) => setAddBy(name)}
+                errorMessages={errorMessages.addBy}
+              />
+              {/* email */}
+              <CustomInput
+                label="YOUR EMAIL"
+                type={"email"}
+                value={email}
+                setInputValue={(data) => setEmail(data)}
+                errorMessages={errorMessages.email}
+              />
+              {/* phone */}
+              <CustomInput
+                label="PHONE NUMBER"
+                type={"text"}
+                value={phone}
+                setInputValue={(data) => setPhone(data)}
+                errorMessages={errorMessages.phone}
+              />
+            </Box>
+          </Stack>
         </div>
 
         <div className="d-flex justify-content-between align-items-center mt-4">
