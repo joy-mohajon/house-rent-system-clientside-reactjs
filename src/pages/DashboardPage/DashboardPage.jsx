@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -17,14 +18,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Person3Icon from '@mui/icons-material/Person3';
 import useAuth from '../Auth/useAuth/useAuth';
 import useAdmin from '../../Hooks/useAdmin';
-import { useQuery } from '@tanstack/react-query';
 import ArticleIcon from '@mui/icons-material/Article';
 import PaymentIcon from '@mui/icons-material/Payment';
 import AddHomeIcon from '@mui/icons-material/AddHome';
@@ -34,16 +34,9 @@ const drawerWidth = 240;
 function DashboardPage(props) {
   const [isAdmin] = useAdmin();
   const {user, loading} = useAuth();
+  
 
-  const {data: users = [], refetch } = useQuery({
-        queryKey: ['users'],
-        queryFn: async() =>{
-            const res = await fetch('http://localhost:5000/users');
-            return res.json()
-        }
-  })
-
-  console.log('user type =',users.type)
+  
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -60,7 +53,7 @@ function DashboardPage(props) {
       {/* 1st list admin */}
       <List>
          {/* admin home */}
-        <Link to="/dashboard/adminhome" >
+        <Link to='/dashboard/adminhome' >
             <ListItem  disablePadding>
                 <ListItemButton>
                 <ListItemIcon>

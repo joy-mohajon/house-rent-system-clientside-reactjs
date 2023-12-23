@@ -11,7 +11,7 @@ import "./search.css";
 import { useNavigation } from "react-router-dom";
 
 const Search = () => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const [category, setCategory] = useState("");
   const [propertyType, setPropertyType] = useState("");
@@ -20,11 +20,11 @@ const Search = () => {
   const searchHandler = (e) => {
     e.preventDefault();
 
-    navigation.navigate('/dashboard', {
-      category: category,
-      propertyType: propertyType,
-      division: division,
-    });
+    // navigation.navigate('/dashboard', {
+    //   category: category,
+    //   propertyType: propertyType,
+    //   division: division,
+    // });
   };
 
   return (

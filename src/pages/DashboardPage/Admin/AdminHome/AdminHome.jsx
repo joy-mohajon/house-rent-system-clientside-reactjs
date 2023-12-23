@@ -1,10 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+const getToken = () => {
+    return localStorage.getItem('token');
+};
 
 const AdminHome = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+      const fetchUserProfile = async () => {
+        try {
+          const token = getToken();
+          if (!token) {
+            // Handle the case where there's no token (user is not authenticated)
+            console.error('No token found. User is not authenticated.');
+            return;
+          }
+
+          const response = await fetch('http://localhost:5000/users/profile', {
+            method: 'GET',
+            headers: {
+              'Authorization': token,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          } else {
+            console.error('Failed to fetch user profile');
+          }
+        } catch (error) {
+          console.error('Error fetching user profile:', error);
+        }
+      };
+      fetchUserProfile();
+    }, []);
+
     return (
     <div className="container-fluid px-0 mt-4">
       <div
-        className="card"
+        className="card container"
         style={{
           boxShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
           borderBottom: "1px solid rgba(240, 240, 240, 1)",
@@ -34,8 +71,8 @@ const AdminHome = () => {
                   type="text"
                   className="form-control"
                   id="inputName"
-                  value="John Doe"
-                  readOnly
+                  value=""
+                  
                 />
               </div>
 
@@ -46,8 +83,8 @@ const AdminHome = () => {
                   type="tel"
                   className="form-control"
                   id="inputNumber"
-                  value="(123) 456-7890"
-                  readOnly
+                  value=""
+                  
                 />
               </div>
 
@@ -58,8 +95,8 @@ const AdminHome = () => {
                   type="email"
                   className="form-control"
                   id="inputEmail"
-                  value="john@example.com"
-                  readOnly 
+                  value=""
+                  
                 />
               </div>
 
@@ -68,13 +105,22 @@ const AdminHome = () => {
                 <label htmlFor="inputAddress">Address:</label>
                 <textarea
                   className="form-control"
-                  id="inputAddress"
+                  id=""
                   rows="3"
-                  readOnly
+                  
                 >
-                  123 Street, City, Country
+                  
                 </textarea>
               </div>
+
+              {user && (
+        <div>
+          <h1>{user.name}'s Profile</h1>
+          <p>Email: {user.email}</p>
+          <p>Address: {user.address}</p>
+          {/* Add other user details as needed */}
+        </div>
+      )}
 
             </div>
           </div>

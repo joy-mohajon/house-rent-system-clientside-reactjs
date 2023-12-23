@@ -51,7 +51,7 @@ function App() {
                   {/* dynamic route */}
                   <Route path="apartmentsinfo/:id" element={<PropertyInfo />} />
                   
-                  {/* booking page: private route */}
+                  {/* booking page: private route, dynamic route */}
                   <Route path="booking/:id" element={ 
                     <PrivateRoute>
                       <BookingPage></BookingPage>
@@ -64,8 +64,9 @@ function App() {
                       <DashboardPage></DashboardPage>
                     </PrivateRoute>
                    } > 
-                      {/* admin home */}
+                      {/* home: dynamic route***** */}
                       <Route path='adminhome' element={ <AdminHome></AdminHome> } > </Route>
+
                       {/* admin: manage users */}
                       <Route path='manageusers' element={ <ManageUsers></ManageUsers> } ></Route>
                       {/* manage review */}

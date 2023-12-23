@@ -15,6 +15,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
 
+  // const [token, setToken] = useState('');
+
   // google sign in
   const {user, signInWithGoogle } = useAuth();
   const auth = getAuth();
@@ -64,10 +66,10 @@ const Login = () => {
   }
 
   // user login 
-  const handleUserLogin = event =>{
-        // ei line must form e add kora lage.
+  const handleUserLogin = async (event) =>{
         event.preventDefault();  
         handleLogin(email, password);
+
   }
 
   // reset password

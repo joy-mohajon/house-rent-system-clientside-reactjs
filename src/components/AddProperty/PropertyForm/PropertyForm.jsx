@@ -1,6 +1,8 @@
 import { Box, Stack, selectClasses } from "@mui/joy";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { divisionsData } from "../../../config/AddPropertyForm/Divisions";
 import {
   balconyOptions,
@@ -17,22 +19,13 @@ import CustomInput from "../../CustomInput/CustomInput";
 import CustomTextarea from "../../CustomInput/CustomTextarea";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import "./PropertyForm.css";
-import { useParams } from 'react-router-dom';
-
 
 const PropertyForm = ({ currentStep, stepHandler }) => {
   const navigate = useNavigate();
-  const [loaduser, setLoaduser] = useState({});
-  const {id} = useParams();
 
-  // data load
-    useEffect( ()=>{
-          fetch(`http://localhost:5000/users/${id}`)
-          .then(data => data.json())
-          .then(data => {setLoaduser(data);
-            console.log('user = ',data)
-          });
-      } , [])
+  const [axiosSecure] = useAxiosSecure();
+  const { register, handleSubmit, reset } = useForm();
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=8a5a04f93faaf1072c6596fcf564df79`;
 
   // Step 1: basic information
   const [category, setCategory] = useState("");
@@ -167,7 +160,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   };
 
   // Form submission
-  const handleSubmit = async (e) => {
+  const onSubmit = (data, e) => {
     e.preventDefault();
 
     // Validate before submission
@@ -192,12 +185,12 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
 
     // Append image and video files if they exist
     if (image) {
-      formData.append("image", image);
+      formData.append("image", data.img[0]);
     }
 
-    if (video) {
-      formData.append("video", video);
-    }
+    // if (video) {
+    //   formData.append("video", video);
+    // }
 
     console.log("Form submitted successfully!", formData);
     console.log("district value: ===========", division, district, thana);
@@ -228,7 +221,80 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     //   console.error("Error submitting form:", error.message);
     // }
 
-    navigate("/");
+    // fetch(img_hosting_url, {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((res) => res.json())
+    //   .then((imgResponse) => {
+    //     if (imgResponse.success) {
+    //       const imgUrl = imgResponse.data.display_url;
+    //       console.log(imgUrl);
+    //       const {
+    //         name,
+    //         category,
+    //         gender,
+    //         propertytype,
+    //         balcony,
+    //         bedroom,
+    //         bathroom,
+    //         floor,
+    //         division,
+    //         district,
+    //         thana,
+    //         availablefrom,
+    //         rent,
+    //         summary,
+    //         addedby,
+    //         phone,
+    //         email,
+    //       } = data;
+
+    //       const newApartment = {
+    //         name,
+    //         category,
+    //         img1: imgUrl,
+    //         img2: imgUrl,
+    //         gender,
+    //         propertytype,
+    //         balcony,
+    //         bedroom,
+    //         bathroom,
+    //         floor,
+    //         division,
+    //         district,
+    //         thana,
+    //         availablefrom,
+    //         rent: parseFloat(price),
+    //         summary,
+    //         addedby,
+    //         phone,
+    //         email,
+    //       };
+
+    //       axios
+    //         .post("/rent", newApartment)
+
+    //         .then((data) => {
+    //           if (data.data.insertedId) {
+    //             reset();
+
+    //             Swal.fire({
+    //               position: "top-end",
+    //               icon: "success",
+    //               title: "Added successfully",
+    //               showConfirmButton: false,
+    //               timer: 1500,
+    //             });
+    //           }
+
+    //         });
+    //       console.log('apartment data = ',newApartment)
+
+    //     }
+    //   });
+
+    // navigate("/");
   };
 
   // useEffect to clear specific error messages based on state updates
@@ -299,13 +365,24 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   }, [district]);
 
   return (
-    <form method="POST" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       {/* Step 1: Item Details  */}
       <div
         id="step1"
         className={`form-step ${currentStep === 1 ? "visible" : ""}`}
       >
         <h3 className="title">Basic information</h3>
+        {/* announcement */}
+        <div className="form-group mb-2">
+          <label htmlFor="inputName">Announcement:</label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputName"
+            placeholder="Your Announcement"
+            {...register("name", { required: true })}
+          />
+        </div>
         <Stack spacing={2}>
           <Box
             gap={2}
@@ -327,6 +404,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={categoryOptions}
               errorMessages={errorMessages.category}
               selectClasses={selectClasses}
+              {...register("category", { required: true })}
             />
 
             {/* property input field  */}
@@ -337,6 +415,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={propertyTypeOptions}
               errorMessages={errorMessages.propertyType}
               selectClasses={selectClasses}
+              {...register("propertytype", { required: true })}
             />
           </Box>
           <Box
@@ -359,6 +438,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={genderOptions}
               errorMessages={errorMessages.gender}
               selectClasses={selectClasses}
+              {...register("gender", { required: true })}
             />
           </Box>
           <Box
@@ -381,6 +461,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={bedroomOptions}
               errorMessages={errorMessages.bedroom}
               selectClasses={selectClasses}
+              {...register("bedroom", { required: true })}
             />
 
             {/* bathroom input field  */}
@@ -391,6 +472,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setBathroom(type)}
               errorMessages={errorMessages.bathroom}
               selectClasses={selectClasses}
+              {...register("bathroom", { required: true })}
             />
           </Box>
           <Box
@@ -413,6 +495,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setBalcony(type)}
               errorMessages={errorMessages.balcony}
               selectClasses={selectClasses}
+              {...register("balcony", { required: true })}
             />
 
             {/* floor no input field  */}
@@ -423,6 +506,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setFloor(type)}
               errorMessages={errorMessages.floorno}
               selectClasses={selectClasses}
+              {...register("floor", { required: true })}
             />
           </Box>
         </Stack>
@@ -464,6 +548,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setDivision(data)}
               errorMessages={errorMessages.division}
               selectClasses={selectClasses}
+              {...register("division", { required: true })}
             />
 
             {/* district input field  */}
@@ -477,6 +562,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setDistrict(data)}
               errorMessages={errorMessages.district}
               selectClasses={selectClasses}
+              {...register("district", { required: true })}
             />
           </Box>
           <Box
@@ -500,6 +586,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setThana(data)}
               errorMessages={errorMessages.thana}
               selectClasses={selectClasses}
+              {...register("thana", { required: true })}
             />
           </Box>
         </Stack>
@@ -540,25 +627,32 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               },
             }}
           >
-            {/* imgage input field  */}
-            <CustomInput
-              label="IMAGES"
-              accept="image/*"
-              value={image}
-              setInputValue={(file) => setImage(file)}
-              errorMessages={errorMessages.image}
-              type={"file"}
-            />
+            {/* image1 input field  */}
+            <div className="form-group mb-2">
+              <label htmlFor="inputName">Image1:</label>
+              <input
+                type="file"
+                className="form-control"
+                id="inputName"
+                placeholder="Your Announcement"
+                errorMessages={errorMessages.thana}
+                {...register("img1", { required: true })}
+                required
+              />
+            </div>
 
-            {/* video input field  */}
-            <CustomInput
-              label="VIDEO"
-              accept="video/*"
-              value={video}
-              setInputValue={(file) => setVideo(file)}
-              errorMessages={errorMessages.video}
-              type={"file"}
-            />
+            {/* image2 input field  */}
+            <div className="form-group mb-2">
+              <label htmlFor="inputName">Image2:</label>
+              <input
+                type="file"
+                className="form-control"
+                id="inputName"
+                placeholder="Your Announcement"
+                errorMessages={errorMessages.thana}
+                {...register("img2", { required: true })}
+              />
+            </div>
           </Box>
 
           <Box
@@ -582,6 +676,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setAvailableFrom(type)}
               errorMessages={errorMessages.availableFrom}
               selectClasses={selectClasses}
+              {...register("availablefrom", { required: true })}
             />
 
             {/* Rent input field  */}
@@ -591,6 +686,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={rent}
               setInputValue={(type) => setRent(type)}
               errorMessages={errorMessages.rent}
+              {...register("rent", { required: true })}
             />
           </Box>
 
@@ -606,15 +702,15 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               },
             }}
           >
-            {/* additional information input field  */}
+            {/* additional information: input field  */}
             <CustomTextarea
               label="ADITINAL INFORMATIONS"
               value={additionalInfo}
               setInputValue={(info) => setAdditionalInfo(info)}
               errorMessages={errorMessages.additionalInfo}
+              {...register("summary", { required: true })}
             />
           </Box>
-
         </Stack>
         <br />
         <div>
@@ -622,47 +718,36 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
           <br />
           {/* name */}
           <div className="form-group mb-2">
-              <label htmlFor="inputName">Name:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputName"
-                    defaultValue={loaduser.name}  readonly  
-                    placeholder='Your Name'
-                  />
+            <label htmlFor="inputName">Name:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputaddedby"
+              placeholder="Your Name"
+              {...register("addedby", { required: true })}
+            />
           </div>
           {/* email */}
           <div className="form-group mb-2">
-              <label htmlFor="inputName">Email:</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="inputName"
-                        
-                    placeholder='Your Email'
-                  />
+            <label htmlFor="inputName">Email:</label>
+            <input
+              type="email"
+              className="form-control"
+              id="inputName"
+              placeholder="Your Email"
+              {...register("email", { required: true })}
+            />
           </div>
           {/* phone */}
           <div className="form-group mb-2">
-              <label htmlFor="inputName">Phone:</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="inputName"
-                        
-                    placeholder='Your Phone No'
-                  />
-          </div>
-          {/* address */}
-          <div className="form-group mb-2">
-              <label htmlFor="inputName">Address:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputName"
-                        
-                    placeholder='Your Address'
-                  />
+            <label htmlFor="inputName">Phone:</label>
+            <input
+              type="number"
+              className="form-control"
+              id="inputName"
+              placeholder="Your Phone No"
+              {...register("phone", { required: true })}
+            />
           </div>
         </div>
 
