@@ -23,7 +23,7 @@ import "./PropertyForm.css";
 const PropertyForm = ({ currentStep, stepHandler }) => {
   const navigate = useNavigate();
 
-  const [axiosSecure] = useAxiosSecure();
+  
   const { register, handleSubmit, reset } = useForm();
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=8a5a04f93faaf1072c6596fcf564df79`;
 
@@ -160,7 +160,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   };
 
   // Form submission
-  const onSubmit = (data, e) => {
+  const onSubmit = async (data, e) => {
     e.preventDefault();
 
     // Validate before submission
@@ -201,98 +201,25 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     console.log("Form submitted successfully! additional", additionalInfo);
     console.log("Form submitted successfully! iamge", image);
 
-    // try {
-    //   const response = await axios.post("your-api-endpoint", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
+    try {
+      const response = await axios.post("your-api-endpoint", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    //   // Handle successful submission
-    //   if (response.status === 200) {
-    //     // Handle success (e.g., show a success message, redirect, etc.)
-    //     console.log("Form submitted successfully!", formData);
-    //   } else {
-    //     // Handle other status codes or server errors
-    //     console.error("Error submitting form:", response.statusText);
-    //   }
-    // } catch (error) {
-    //   // Handle network errors or other issues
-    //   console.error("Error submitting form:", error.message);
-    // }
-
-    // fetch(img_hosting_url, {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((res) => res.json())
-    //   .then((imgResponse) => {
-    //     if (imgResponse.success) {
-    //       const imgUrl = imgResponse.data.display_url;
-    //       console.log(imgUrl);
-    //       const {
-    //         name,
-    //         category,
-    //         gender,
-    //         propertytype,
-    //         balcony,
-    //         bedroom,
-    //         bathroom,
-    //         floor,
-    //         division,
-    //         district,
-    //         thana,
-    //         availablefrom,
-    //         rent,
-    //         summary,
-    //         addedby,
-    //         phone,
-    //         email,
-    //       } = data;
-
-    //       const newApartment = {
-    //         name,
-    //         category,
-    //         img1: imgUrl,
-    //         img2: imgUrl,
-    //         gender,
-    //         propertytype,
-    //         balcony,
-    //         bedroom,
-    //         bathroom,
-    //         floor,
-    //         division,
-    //         district,
-    //         thana,
-    //         availablefrom,
-    //         rent: parseFloat(price),
-    //         summary,
-    //         addedby,
-    //         phone,
-    //         email,
-    //       };
-
-    //       axios
-    //         .post("/rent", newApartment)
-
-    //         .then((data) => {
-    //           if (data.data.insertedId) {
-    //             reset();
-
-    //             Swal.fire({
-    //               position: "top-end",
-    //               icon: "success",
-    //               title: "Added successfully",
-    //               showConfirmButton: false,
-    //               timer: 1500,
-    //             });
-    //           }
-
-    //         });
-    //       console.log('apartment data = ',newApartment)
-
-    //     }
-    //   });
+      // Handle successful submission
+      if (response.status === 200) {
+        // Handle success (e.g., show a success message, redirect, etc.)
+        console.log("Form submitted successfully!", formData);
+      } else {
+        // Handle other status codes or server errors
+        console.error("Error submitting form:", response.statusText);
+      }
+    } catch (error) {
+      // Handle network errors or other issues
+      console.error("Error submitting form:", error.message);
+    }
 
     // navigate("/");
   };
@@ -373,16 +300,15 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
       >
         <h3 className="title">Basic information</h3>
         {/* announcement */}
-        <div className="form-group mb-2">
+        {/* <div className="form-group mb-2">
           <label htmlFor="inputName">Announcement:</label>
           <input
             type="text"
             className="form-control"
             id="inputName"
             placeholder="Your Announcement"
-            {...register("name", { required: true })}
           />
-        </div>
+        </div> */}
         <Stack spacing={2}>
           <Box
             gap={2}
@@ -404,7 +330,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={categoryOptions}
               errorMessages={errorMessages.category}
               selectClasses={selectClasses}
-              {...register("category", { required: true })}
             />
 
             {/* property input field  */}
@@ -415,7 +340,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={propertyTypeOptions}
               errorMessages={errorMessages.propertyType}
               selectClasses={selectClasses}
-              {...register("propertytype", { required: true })}
             />
           </Box>
           <Box
@@ -438,7 +362,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={genderOptions}
               errorMessages={errorMessages.gender}
               selectClasses={selectClasses}
-              {...register("gender", { required: true })}
             />
           </Box>
           <Box
@@ -461,7 +384,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               options={bedroomOptions}
               errorMessages={errorMessages.bedroom}
               selectClasses={selectClasses}
-              {...register("bedroom", { required: true })}
             />
 
             {/* bathroom input field  */}
@@ -472,7 +394,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setBathroom(type)}
               errorMessages={errorMessages.bathroom}
               selectClasses={selectClasses}
-              {...register("bathroom", { required: true })}
             />
           </Box>
           <Box
@@ -495,7 +416,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setBalcony(type)}
               errorMessages={errorMessages.balcony}
               selectClasses={selectClasses}
-              {...register("balcony", { required: true })}
             />
 
             {/* floor no input field  */}
@@ -506,7 +426,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setFloor(type)}
               errorMessages={errorMessages.floorno}
               selectClasses={selectClasses}
-              {...register("floor", { required: true })}
             />
           </Box>
         </Stack>
@@ -548,7 +467,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setDivision(data)}
               errorMessages={errorMessages.division}
               selectClasses={selectClasses}
-              {...register("division", { required: true })}
             />
 
             {/* district input field  */}
@@ -562,7 +480,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setDistrict(data)}
               errorMessages={errorMessages.district}
               selectClasses={selectClasses}
-              {...register("district", { required: true })}
             />
           </Box>
           <Box
@@ -586,7 +503,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(data) => setThana(data)}
               errorMessages={errorMessages.thana}
               selectClasses={selectClasses}
-              {...register("thana", { required: true })}
             />
           </Box>
         </Stack>
@@ -636,7 +552,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
                 id="inputName"
                 placeholder="Your Announcement"
                 errorMessages={errorMessages.thana}
-                {...register("img1", { required: true })}
                 required
               />
             </div>
@@ -650,7 +565,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
                 id="inputName"
                 placeholder="Your Announcement"
                 errorMessages={errorMessages.thana}
-                {...register("img2", { required: true })}
               />
             </div>
           </Box>
@@ -676,7 +590,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               setInputValue={(type) => setAvailableFrom(type)}
               errorMessages={errorMessages.availableFrom}
               selectClasses={selectClasses}
-              {...register("availablefrom", { required: true })}
             />
 
             {/* Rent input field  */}
@@ -686,7 +599,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={rent}
               setInputValue={(type) => setRent(type)}
               errorMessages={errorMessages.rent}
-              {...register("rent", { required: true })}
             />
           </Box>
 
@@ -708,7 +620,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               value={additionalInfo}
               setInputValue={(info) => setAdditionalInfo(info)}
               errorMessages={errorMessages.additionalInfo}
-              {...register("summary", { required: true })}
             />
           </Box>
         </Stack>
@@ -724,7 +635,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               className="form-control"
               id="inputaddedby"
               placeholder="Your Name"
-              {...register("addedby", { required: true })}
             />
           </div>
           {/* email */}
@@ -735,7 +645,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               className="form-control"
               id="inputName"
               placeholder="Your Email"
-              {...register("email", { required: true })}
             />
           </div>
           {/* phone */}
@@ -746,7 +655,6 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
               className="form-control"
               id="inputName"
               placeholder="Your Phone No"
-              {...register("phone", { required: true })}
             />
           </div>
         </div>
