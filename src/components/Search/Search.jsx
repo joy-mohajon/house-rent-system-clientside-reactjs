@@ -20,6 +20,7 @@ const Search = () => {
   const searchHandler = (e) => {
     e.preventDefault();
 
+
     navigate("/apartments", {
       state: {
         homeCategory: category,
@@ -27,6 +28,7 @@ const Search = () => {
         homeDivision: division,
       },
     });
+
   };
 
   return (
