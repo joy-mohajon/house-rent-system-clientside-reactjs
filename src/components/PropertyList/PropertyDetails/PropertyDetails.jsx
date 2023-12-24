@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BeenhereIcon from "@mui/icons-material/Beenhere";
 import ImageCarousel from "../../ImageCarousel/ImageCarousel";
+import Slider from "react-slick";
 
 const PropertyDetails = ({ images }) => {
   const { id } = useParams();
   const [appart, setAppart] = useState({});
+
+  // const [images] = [apart.img1, apart.img2]
 
   useEffect(() => {
     fetch(`http://localhost:5000/rent/${id}`)
@@ -20,6 +23,15 @@ const PropertyDetails = ({ images }) => {
   const url = `/booking/${appart._id}`;
   const handleBooking = () => {
     navigate(url);
+  };
+
+  const settings = {
+    // dots: true,
+    autoplay: true,
+    infinite: true,
+    autoplaySpeed: 1500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
   };
 
   console.log("appart:", appart);
@@ -46,7 +58,15 @@ const PropertyDetails = ({ images }) => {
                   borderBottom: "1px solid rgba(240, 240, 240, 1)",
                 }}
               >
-                <ImageCarousel images={images} />
+                {/* <ImageCarousel images={images} /> */}
+                <Slider {...settings} className="owl-carousel header-carousel">
+                    <div  className="owl-carousel-item">
+                      <img className="img-fluid" src={appart.img2} alt={`Slide `} />
+                    </div>
+                    <div  className="owl-carousel-item">
+                      <img className="img-fluid" src={appart.img1} alt={`Slide `} />
+                    </div>
+                </Slider>
                 <br />
                 <button
                   onClick={handleBooking}
