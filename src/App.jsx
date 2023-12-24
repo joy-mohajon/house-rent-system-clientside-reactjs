@@ -11,10 +11,7 @@ import PropertyInfo from "./pages/PropertyInfo/PropertyInfo";
 import SavedProperty from "./components/SavedProperty/SavedProperty";
 
 // tanstack query added
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "./pages/Auth/AuthProvider/AuthProvider";
 import PrivateRoute from "./pages/Auth/PrivateRoute/PrivateRoute";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
@@ -32,77 +29,115 @@ import PaymentHistory from "./pages/DashboardPage/Tenant/PaymentHistory/PaymentH
 // import AddApartment from "./pages/DashboardPage/Landlord/AddApartment/AddApartment";
 import ManageApartment from "./pages/DashboardPage/Landlord/ManageApartment/ManageApartment";
 import AllApartment from "./pages/DashboardPage/Admin/AllApartment/AllApartment";
+import { SearchContextProvider } from "./contexts/SearchContextProvider";
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <AuthProvider>
-         <QueryClientProvider client={queryClient} >
-            <Router>
-              <Routes>
-                  <Route path="/" element={<NavLayout />}>
-                    <Route index exact element={<Home />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} />
-                    {/* <Route path="add-property" element={<AddProperty />} /> */}
-                  </Route>
-                  {/* apartments */}
-                  <Route path="/apartments" element={<Dashboard />} />
-                  {/* dynamic route */}
-                  <Route path="apartmentsinfo/:id" element={<PropertyInfo />} />
-                  
-                  {/* booking page: private route, dynamic route */}
-                  <Route path="booking/:id" element={ 
-                    <PrivateRoute>
-                      <BookingPage></BookingPage>
-                    </PrivateRoute>
-                  } ></Route>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<NavLayout />}>
+              <Route index exact element={<Home />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              {/* <Route path="add-property" element={<AddProperty />} /> */}
+            </Route>
+            {/* apartments */}
+            <Route
+              path="/apartments"
+              element={
+                <SearchContextProvider>
+                  <Dashboard />
+                </SearchContextProvider>
+              }
+            />
+            {/* dynamic route */}
+            <Route path="apartmentsinfo/:id" element={<PropertyInfo />} />
 
-                  {/* dashboard page , private route, nested route */}
-                  <Route path='/dashboard' element={ 
-                    <PrivateRoute>
-                      <DashboardPage></DashboardPage>
-                    </PrivateRoute>
-                   } > 
-                      {/* home: dynamic route***** */}
-                      <Route path='adminhome' element={ <AdminHome></AdminHome> } > </Route>
+            {/* booking page: private route */}
+            <Route
+              path="booking/:id"
+              element={
+                <PrivateRoute>
+                  <BookingPage></BookingPage>
+                </PrivateRoute>
+              }
+            ></Route>
 
-                      {/* admin: manage users */}
-                      <Route path='manageusers' element={ <ManageUsers></ManageUsers> } ></Route>
-                      {/* manage review */}
-                      <Route path='managereview' element={ <ManageReview></ManageReview> } ></Route>
-                      {/* all apartment */}
-                      <Route path='all' element={ <AllApartment></AllApartment> } ></Route>
+            {/* dashboard page , private route, nested route */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <DashboardPage></DashboardPage>
+                </PrivateRoute>
+              }
+            >
+              {/* admin home */}
+              <Route path="adminhome" element={<AdminHome></AdminHome>}>
+                {" "}
+              </Route>
+              {/* admin: manage users */}
+              <Route
+                path="manageusers"
+                element={<ManageUsers></ManageUsers>}
+              ></Route>
+              {/* manage review */}
+              <Route
+                path="managereview"
+                element={<ManageReview></ManageReview>}
+              ></Route>
+              {/* all apartment */}
+              <Route path="all" element={<AllApartment></AllApartment>}></Route>
 
-                      {/* landlord home */}
-                      <Route path='landlordhome' element={ <LandlordHome></LandlordHome> } > </Route>
-                      {/* landlord: add apartment */}
-                      <Route path='add' element={<AddProperty />} ></Route>
-                      {/* landlord: manage apartment */}
-                      <Route path='manage' element={ <ManageApartment></ManageApartment> } ></Route>
+              {/* landlord home */}
+              <Route
+                path="landlordhome"
+                element={<LandlordHome></LandlordHome>}
+              >
+                {" "}
+              </Route>
+              {/* landlord: add apartment */}
+              <Route path="add" element={<AddProperty />}></Route>
+              {/* landlord: manage apartment */}
+              <Route
+                path="manage"
+                element={<ManageApartment></ManageApartment>}
+              ></Route>
 
-                      {/* tenant home */}
-                      <Route path='tenanthome' element={ <TenantHome></TenantHome> } > </Route>
-                      {/* tenant: managebooking */}
-                      <Route path="managebooking" element={ <ManageBooking></ManageBooking> } ></Route>
-                      {/* tenant: managecart */}
-                      <Route path="managecart" element={ <ManageCart></ManageCart> } ></Route>
-                      {/* tenant: addreview */}
-                      <Route path="addreview" element={ <AddReview></AddReview> } ></Route>
-                      {/* payment */}
-                      <Route path='payment' element={ <Payment></Payment> } ></Route>
-                      {/* payment history */}
-                      <Route path='phistory' element={ <PaymentHistory></PaymentHistory> } ></Route>
-                  </Route>
+              {/* tenant home */}
+              <Route path="tenanthome" element={<TenantHome></TenantHome>}>
+                {" "}
+              </Route>
+              {/* tenant: managebooking */}
+              <Route
+                path="managebooking"
+                element={<ManageBooking></ManageBooking>}
+              ></Route>
+              {/* tenant: managecart */}
+              <Route
+                path="managecart"
+                element={<ManageCart></ManageCart>}
+              ></Route>
+              {/* tenant: addreview */}
+              <Route path="addreview" element={<AddReview></AddReview>}></Route>
+              {/* payment */}
+              <Route path="payment" element={<Payment></Payment>}></Route>
+              {/* payment history */}
+              <Route
+                path="phistory"
+                element={<PaymentHistory></PaymentHistory>}
+              ></Route>
+            </Route>
 
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/saved-property" element={<SavedProperty />} />
-              </Routes>
-          </Router>
-         </QueryClientProvider>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/saved-property" element={<SavedProperty />} />
+          </Routes>
+        </Router>
+      </QueryClientProvider>
     </AuthProvider>
-
-    
   );
 }
 

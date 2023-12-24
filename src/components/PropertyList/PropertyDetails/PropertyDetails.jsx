@@ -1,28 +1,40 @@
 import { Typography } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import BeenhereIcon from '@mui/icons-material/Beenhere';
+import BeenhereIcon from "@mui/icons-material/Beenhere";
 import ImageCarousel from "../../ImageCarousel/ImageCarousel";
+import Slider from "react-slick";
 
 const PropertyDetails = ({ images }) => {
-    const {id} = useParams();
-    const [appart , setAppart] = useState({});
-    
-    useEffect( ()=>{
-      fetch(`http://localhost:5000/rent/${id}`)
-        .then(data => data.json())
-        .then( data => setAppart(data))
-    }, [] )
+  const { id } = useParams();
+  const [appart, setAppart] = useState({});
 
-    // booking url
-    let navigate = useNavigate();
-    // dynamic booking url
-    const url = `/booking/${appart._id}`;
-    const handleBooking = ()=>{
-      navigate(url);
-    }
+  // const [images] = [apart.img1, apart.img2]
 
+  useEffect(() => {
+    fetch(`http://localhost:5000/rent/${id}`)
+      .then((data) => data.json())
+      .then((data) => setAppart(data));
+  }, []);
 
+  // booking url
+  let navigate = useNavigate();
+  // dynamic booking url
+  const url = `/booking/${appart._id}`;
+  const handleBooking = () => {
+    navigate(url);
+  };
+
+  const settings = {
+    // dots: true,
+    autoplay: true,
+    infinite: true,
+    autoplaySpeed: 1500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  console.log("appart:", appart);
   return (
     <div className="container-fluid mt-3">
       <div className="row flex-row-reverse">
@@ -30,9 +42,9 @@ const PropertyDetails = ({ images }) => {
           <div className="row mb-2">
             <div className="col-12 text-right">
               <Typography style={{ textAlign: "right" }}>
-                Added by 
+                Added by
                 <Link to={"/profile"}>
-                  <span className="text-primary px-2">{appart.addedby}</span>
+                  <span className="text-primary px-2">{appart.addBy}</span>
                 </Link>
               </Typography>
             </div>
@@ -46,16 +58,30 @@ const PropertyDetails = ({ images }) => {
                   borderBottom: "1px solid rgba(240, 240, 240, 1)",
                 }}
               >
-                <ImageCarousel images={images} />
+                {/* <ImageCarousel images={images} /> */}
+                <Slider {...settings} className="owl-carousel header-carousel">
+                    <div  className="owl-carousel-item">
+                      <img className="img-fluid" src={appart.img2} alt={`Slide `} />
+                    </div>
+                    <div  className="owl-carousel-item">
+                      <img className="img-fluid" src={appart.img1} alt={`Slide `} />
+                    </div>
+                </Slider>
                 <br />
-                <button onClick={handleBooking} variant="contained" className="px-3 text-white btn btn-outline-primary active" >
-                    <small className="d-flex"> <BeenhereIcon></BeenhereIcon>  Book Now </small> 
+                <button
+                  onClick={handleBooking}
+                  variant="contained"
+                  className="px-3 text-white btn btn-outline-primary active"
+                >
+                  <small className="d-flex">
+                    {" "}
+                    <BeenhereIcon></BeenhereIcon> Book Now{" "}
+                  </small>
                 </button>
-                
               </div>
             </div>
           </div>
-          
+
           {/* booking */}
           <div className="row mb-3">
             {/* <div className="col">
@@ -70,7 +96,6 @@ const PropertyDetails = ({ images }) => {
               </div>
             </div> */}
           </div>
-
         </div>
         <div className="col-md-6 " style={{ padding: "0 10px 0 0px" }}>
           <div className="row">
@@ -88,8 +113,8 @@ const PropertyDetails = ({ images }) => {
                 </div>
                 <div className="card-body">
                   <dl className="row">
-                    <dt className="col-5 col-md-4">Apartment:</dt>
-                    <dd className="col-7 col-md-8"> {appart.name} </dd>
+                    {/* <dt className="col-5 col-md-4">Apartment:</dt>
+                    <dd className="col-7 col-md-8"> {appart.name} </dd> */}
 
                     <dt className="col-5 col-md-4">Category:</dt>
                     <dd className="col-7 col-md-8"> {appart.category} </dd>
@@ -161,12 +186,13 @@ const PropertyDetails = ({ images }) => {
                     <dd className="col-7 col-md-8"> {appart.availablefrom} </dd>
 
                     <dt className="col-5 col-md-4">Rent:</dt>
-                    <dd className="col-7 col-md-8"> {appart.rent} BDT/month </dd>
+                    <dd className="col-7 col-md-8">
+                      {" "}
+                      {appart.rent} BDT/month{" "}
+                    </dd>
 
                     <dt className="col-5 col-md-4">Summary:</dt>
-                    <dd className="col-7 col-md-8">
-                      {appart.summary}
-                    </dd>
+                    <dd className="col-7 col-md-8">{appart.additionalInfo}</dd>
                   </dl>
                 </div>
               </div>
@@ -187,7 +213,7 @@ const PropertyDetails = ({ images }) => {
                 <div className="card-body">
                   <dl className="row">
                     <dt className="col-5 col-md-4">Owner: </dt>
-                    <dd className="col-7 col-md-8"> {appart.addedby} </dd>
+                    <dd className="col-7 col-md-8"> {appart.addBy} </dd>
 
                     <dt className="col-5 col-md-4">Phone:</dt>
                     <dd className="col-7 col-md-8"> {appart.phone} </dd>
@@ -198,7 +224,6 @@ const PropertyDetails = ({ images }) => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

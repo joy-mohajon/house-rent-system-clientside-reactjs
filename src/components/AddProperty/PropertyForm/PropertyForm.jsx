@@ -1,7 +1,9 @@
 import { Box, Stack, selectClasses } from "@mui/joy";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { divisionsData } from "../../../config/AddPropertyForm/Divisions";
 import {
@@ -18,6 +20,7 @@ import CustomButton from "../../CustomButton/CustomButton";
 import CustomInput from "../../CustomInput/CustomInput";
 import CustomTextarea from "../../CustomInput/CustomTextarea";
 import CustomSelect from "../../CustomSelect/CustomSelect";
+import Spinner from "../../Spinner/Spinner";
 import "./PropertyForm.css";
 
 const PropertyForm = ({ currentStep, stepHandler }) => {
@@ -44,13 +47,19 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   // Step 3: Additional infomation
   const [availableFrom, setAvailableFrom] = useState("");
   const [rent, setRent] = useState(null);
-  const [image, setImage] = useState(null);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
   const [video, setVideo] = useState(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [addBy, setAddBy] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   //selected districts, upazilas
   const [selectedDistrict, setSelectedDistrict] = useState([]);
   const [selectedUpazila, setSelectedUpazila] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Error messages
   const [errorMessages, setErrorMessages] = useState({
@@ -67,6 +76,12 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     rent: "",
     gender: "",
   });
+
+  const isValidPhoneNumber = (phone) => {
+    // You can implement your own phone number validation logic here
+    // For a simple example, this checks if it contains only digits
+    return /^\d+$/.test(phone);
+  };
 
   // Validation functions 1
   const validateStep1 = () => {
@@ -138,6 +153,20 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
       errors.rent = "Rent is required";
     }
 
+    if (!addBy || addBy.trim() === "") {
+      errors.addBy = "Your name is required";
+    }
+
+    if (!email || email.trim() === "") {
+      errors.email = "Your Email is required";
+    }
+
+    if (!phone || phone.trim() === "") {
+      errors.phone = "Phone number is required";
+    } else if (!isValidPhoneNumber(phone)) {
+      errors.phone = "Invalid phone number format";
+    }
+
     setErrorMessages({ ...errorMessages, ...errors });
 
     return Object.keys(errors).length === 0; // Returns true if no errors
@@ -158,6 +187,32 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   const previousStep = (step) => {
     stepHandler(step);
   };
+
+  // make image api
+  async function uploadImage(formData) {
+    try {
+      const response = await axios.post(img_hosting_url, formData);
+      return response.data;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+  }
+
+  // add new Apartment api
+  async function addApartment(newApartment) {
+    console.log("new appartment: ===", newApartment);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/rent",
+        newApartment
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error adding apartment:", error);
+      throw error;
+    }
+  }
 
   // Form submission
   const onSubmit = async (data, e) => {
@@ -183,11 +238,76 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     formData.append("gender", gender);
     formData.append("additionalInfo", additionalInfo);
 
-    // Append image and video files if they exist
-    if (image) {
-      formData.append("image", data.img[0]);
+    try {
+      setIsLoading(true);
+
+      const formDataImg1 = new FormData();
+      formDataImg1.append("image", image1);
+
+      const formDataImg2 = new FormData();
+      formDataImg2.append("image", image2);
+
+      const imgResponse1 = await uploadImage(formDataImg1);
+      const imgResponse2 = await uploadImage(formDataImg2);
+
+      if (imgResponse1.success && imgResponse2.success) {
+        const imgUrl1 = imgResponse1.data.display_url;
+        const imgUrl2 = imgResponse2.data.display_url;
+
+        console.log("Image 1 URL:", imgUrl1);
+        console.log("Image 2 URL:", imgUrl2);
+
+        const newApartment = {
+          category,
+          img1: imgUrl1,
+          img2: imgUrl2,
+          gender,
+          propertytype: propertyType,
+          balcony,
+          bedroom,
+          bathroom,
+          floor,
+          division,
+          district,
+          thana,
+          availablefrom: availableFrom,
+          rent: parseFloat(rent),
+          additionalInfo,
+          addBy,
+          email,
+          phone,
+        };
+
+        const apartmentResponse = await addApartment(newApartment);
+
+        if (apartmentResponse.insertedId) {
+          reset();
+
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Added successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(
+        "Error handling image upload and apartment addition:",
+        error
+      );
+    } finally {
+      setIsLoading(false);
     }
 
+    // Append image and video files if they exist
+    // if (image1) {
+    //   formData.append("image", image1);
+    // }
+    // if (image2) {
+    //   formData.append("image2", image2);
+    // }
     // if (video) {
     //   formData.append("video", video);
     // }
@@ -221,7 +341,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
       console.error("Error submitting form:", error.message);
     }
 
-    // navigate("/");
+    navigate("/apartments");
   };
 
   // useEffect to clear specific error messages based on state updates
@@ -242,6 +362,9 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
       if (availableFrom !== "") updatedErrors.availableFrom = "";
       if (rent !== null) updatedErrors.rent = "";
       if (gender !== "") updatedErrors.gender = "";
+      if (addBy !== "") updatedErrors.addBy = "";
+      if (email !== "") updatedErrors.email = "";
+      if (phone !== "") updatedErrors.phone = "";
 
       return updatedErrors;
     });
@@ -258,6 +381,9 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     thana,
     availableFrom,
     rent,
+    addBy,
+    email,
+    phone,
   ]);
 
   // Effects for dynamic dropdowns
@@ -292,7 +418,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   }, [district]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmitHandler}>
       {/* Step 1: Item Details  */}
       <div
         id="step1"
@@ -616,7 +742,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
           >
             {/* additional information: input field  */}
             <CustomTextarea
-              label="ADITINAL INFORMATIONS"
+              label="ADITIONAL ADDRESS"
               value={additionalInfo}
               setInputValue={(info) => setAdditionalInfo(info)}
               errorMessages={errorMessages.additionalInfo}
@@ -673,6 +799,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
           />
         </div>
       </div>
+      {isLoading && <Spinner />}
     </form>
   );
 };
