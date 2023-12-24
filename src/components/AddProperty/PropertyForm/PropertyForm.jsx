@@ -22,6 +22,8 @@ import "./PropertyForm.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Apartment } from "@material-ui/icons";
+import { useStepContext } from "@mui/material";
+import Spinner from "../../Spinner/Spinner";
 
 const PropertyForm = ({ currentStep, stepHandler }) => {
   const navigate = useNavigate();
@@ -58,6 +60,8 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   //selected districts, upazilas
   const [selectedDistrict, setSelectedDistrict] = useState([]);
   const [selectedUpazila, setSelectedUpazila] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Error messages
   const [errorMessages, setErrorMessages] = useState({
@@ -234,6 +238,8 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     formData.append("additionalInfo", additionalInfo);
 
     try {
+      setIsLoading(true);
+
       const formDataImg1 = new FormData();
       formDataImg1.append("image", image1);
 
@@ -290,6 +296,8 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
         "Error handling image upload and apartment addition:",
         error
       );
+    } finally {
+      setIsLoading(false);
     }
 
     // Append image and video files if they exist
@@ -363,7 +371,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
     //     }
     //   });
 
-    navigate("/");
+    navigate("/apartments");
   };
 
   // useEffect to clear specific error messages based on state updates
@@ -847,6 +855,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
           />
         </div>
       </div>
+      {isLoading && <Spinner />}
     </form>
   );
 };
