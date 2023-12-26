@@ -215,7 +215,7 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   }
 
   // Form submission
-  const onSubmit = async (data, e) => {
+  const onSubmitHandler  = async (data, e) => {
     e.preventDefault();
 
     // Validate before submission

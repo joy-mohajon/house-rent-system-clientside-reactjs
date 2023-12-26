@@ -30,6 +30,7 @@ import PaymentHistory from "./pages/DashboardPage/Tenant/PaymentHistory/PaymentH
 import ManageApartment from "./pages/DashboardPage/Landlord/ManageApartment/ManageApartment";
 import AllApartment from "./pages/DashboardPage/Admin/AllApartment/AllApartment";
 import { SearchContextProvider } from "./contexts/SearchContextProvider";
+import EditProperty from "./components/EditProperty/EditProperty";
 const queryClient = new QueryClient();
 
 function App() {
@@ -106,6 +107,11 @@ function App() {
                 path="manage"
                 element={<ManageApartment></ManageApartment>}
               ></Route>
+              {/* update */}
+              <Route path="manage/update/:id" element={
+                <EditProperty></EditProperty>
+              } > </Route>
+
 
               {/* tenant home */}
               <Route path="tenanthome" element={<TenantHome></TenantHome>}>

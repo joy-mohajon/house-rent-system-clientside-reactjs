@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Table } from '@mui/joy';
 import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
 
 
 const ManageApartment = () => {
@@ -63,7 +64,9 @@ const ManageApartment = () => {
                             <TableCell > {item.rent} BDT </TableCell>
                             {/* update button */}
                             <TableCell > 
-                                Edit 
+                                <Link to={`/dashboard/manage/update/${item._id}`} >
+                                    <button> Edit </button>
+                                </Link> 
                             </TableCell>
                             <TableCell > 
                                 <button onClick={() => handleDelete(item)} className="p-2  text-white" 
