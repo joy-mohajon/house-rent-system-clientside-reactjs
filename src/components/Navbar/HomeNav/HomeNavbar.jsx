@@ -1,8 +1,9 @@
-
 import { Button } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logoImg from "../../../assets/images/icon-deal.png";
+import logo2 from "../../../assets/images/logo2.png";
+import logo1 from "../../../assets/images/logo1.jfif";
 import useAuth from "../../../pages/Auth/useAuth/useAuth";
 import "./HomeNavbar.css";
 import Swal from "sweetalert2";
@@ -11,30 +12,26 @@ const Navbar = () => {
   const navbarRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const {user, logoutUser} = useAuth();
+  const { user, logoutUser } = useAuth();
 
   // logout
-  const logoutFunction =() =>{
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You will be signed out.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Signed Out!'
-        }).then(result =>{
-            if (result.isConfirmed){
-                logoutUser();
-                Swal.fire(
-                        'Signed out!',
-                        'You are signed out.',
-                        'success'
-                )
-            }
-        }) 
-        refetch()
-    }
+  const logoutFunction = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be signed out.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Signed Out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logoutUser();
+        Swal.fire("Signed out!", "You are signed out.", "success");
+      }
+    });
+    refetch();
+  };
 
   const open = Boolean(anchorEl);
   const ITEM_HEIGHT = 48;
@@ -93,14 +90,14 @@ const Navbar = () => {
           to="/"
           className="navbar-brand d-flex align-items-center text-center"
         >
-          <div className="icon p-2 me-2">
+          {/* <div className="icon p-2 me-2"> */}
             <img
               className="img-fluid"
-              src={logoImg}
+              src={logo2}
               alt="Icon"
-              style={{ width: "30px", height: "30px" }}
+              style={{ width: "80px", height: "80px" }}
             />
-          </div>
+          {/* </div> */}
           <h1 className="m-0 text-primary">House Rent</h1>
         </Link>
         <button
@@ -124,18 +121,21 @@ const Navbar = () => {
             <Link to="/profile" className="nav-item nav-link">
               Profile
             </Link>
-            
 
             {/* login/logout */}
-            {
-              user?.email ? 
+            {user?.email ? (
               <div className="navbar-nav ms-auto">
-                  <Link to="/dashboard" className="nav-item nav-link">
-                    Dashboard
-                  </Link>
-                  <Button className="nav-item nav-link logOut" onClick={logoutFunction} >Logout</Button>
+                <Link to="/dashboard" className="nav-item nav-link">
+                  Dashboard
+                </Link>
+                <Button
+                  className="nav-item nav-link logOut"
+                  onClick={logoutFunction}
+                >
+                  Logout
+                </Button>
               </div>
-              :
+            ) : (
               <div className="navbar-nav ms-auto">
                 <Link to="/signup" className="nav-item nav-link">
                   Signup
@@ -144,11 +144,9 @@ const Navbar = () => {
                   Login
                 </Link>
               </div>
-              
-            }
-            
+            )}
           </div>
-          
+
           {/* <div style={{ position: "relative" }}>
             <IconButton
               aria-label="more"
