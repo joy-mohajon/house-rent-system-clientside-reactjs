@@ -12,7 +12,7 @@ const FooterFoot = () => {
             </a>
             , All Rights Reserved. Designed By{" "}
             <a className="border-bottom" href="#">
-              JMtech
+              Sadikul 
             </a>
           </div>
           {/* <div className="col-md-6 text-center text-md-end">
