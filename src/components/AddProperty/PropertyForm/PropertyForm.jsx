@@ -1,7 +1,9 @@
 import { Box, Stack, selectClasses } from "@mui/joy";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { divisionsData } from "../../../config/AddPropertyForm/Divisions";
 import {
@@ -18,12 +20,8 @@ import CustomButton from "../../CustomButton/CustomButton";
 import CustomInput from "../../CustomInput/CustomInput";
 import CustomTextarea from "../../CustomInput/CustomTextarea";
 import CustomSelect from "../../CustomSelect/CustomSelect";
-import "./PropertyForm.css";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { Apartment } from "@material-ui/icons";
-import { useStepContext } from "@mui/material";
 import Spinner from "../../Spinner/Spinner";
+import "./PropertyForm.css";
 
 const PropertyForm = ({ currentStep, stepHandler }) => {
   const navigate = useNavigate();
@@ -205,7 +203,10 @@ const PropertyForm = ({ currentStep, stepHandler }) => {
   async function addApartment(newApartment) {
     console.log("new appartment: ===", newApartment);
     try {
-      const response = await axios.post("/rent", newApartment);
+      const response = await axios.post(
+        "http://localhost:5000/rent",
+        newApartment
+      );
       return response.data;
     } catch (error) {
       console.error("Error adding apartment:", error);
