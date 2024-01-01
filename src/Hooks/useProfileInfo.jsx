@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from "react";
-import useAuth from "../pages/Auth/useAuth/useAuth";
-import useAxiosSecure from "./useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 
-const useCart = () => {
-  const [cart, setCart] = useState(null);
+const useProfileInfo = () => {
+  const [userInfo, setUserInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [reset, setReset] = useState(false);
 
   const getToken = () => {
     return localStorage.getItem("firebase-token");
   };
-
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -26,7 +21,7 @@ const useCart = () => {
 
         // console.log("admin token", token);
 
-        const response = await fetch("http://localhost:5000/carts", {
+        const response = await fetch("http://localhost:5000/users/profile", {
           method: "GET",
           headers: {
             Authorization: "Bearer " + token,
@@ -35,9 +30,9 @@ const useCart = () => {
         });
 
         if (response.ok) {
-          const cartData = await response.json();
-          //   console.log("admin profile data: ", cartData);
-          setCart(cartData);
+          const userData = await response.json();
+          console.log("admin profile data: ", userData);
+          setUserInfo(userData);
         } else {
           console.error("Failed to fetch user profile");
         }
@@ -49,9 +44,9 @@ const useCart = () => {
     };
 
     fetchUserProfile();
-  }, [reset]);
+  }, []);
 
-  return { cart, isLoading, reset, setReset };
+  return { userInfo, isLoading };
 };
 
-export default useCart;
+export default useProfileInfo;

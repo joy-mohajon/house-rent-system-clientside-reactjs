@@ -1,13 +1,18 @@
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from "firebase/auth";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import notEyeImg from "../../assets/images/eye_closed.svg";
 import eyeImg from "../../assets/images/eye_open.svg";
 import singupImg from "../../assets/images/signup-image.jpg";
-import useAuth from '../Auth/useAuth/useAuth';
+import useAuth from "../Auth/useAuth/useAuth";
 import classes from "./styles.module.css";
 
 const Signup = () => {
@@ -17,43 +22,43 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [ confirmpass, setConfirmpass] = useState("");
+  const [confirmpass, setConfirmpass] = useState("");
   const [errors, setErrors] = useState("");
   const [type, setType] = useState("");
 
   const auth = getAuth();
-  const { user} = useAuth();
+  const { user } = useAuth();
 
   const navigate = useNavigate();
-    // navigate
-  if(user?.email){
-      navigate('/');
+  // navigate
+  if (user?.email) {
+    navigate("/");
   }
 
   // name
-  const handleName = event =>{
-      setName(event.target.value);
-  }
+  const handleName = (event) => {
+    setName(event.target.value);
+  };
 
   // address
-  const handleAddress = event =>{
-    setAddress(event.target.value)
-  }
+  const handleAddress = (event) => {
+    setAddress(event.target.value);
+  };
 
   // email
-  const handleEmail = event =>{
-      setEmail(event.target.value);
-  }
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
 
   // password
-  const handlePassword = event =>{
-      setPassword(event.target.value);
-  }
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+  };
 
   // confirm password
-  const handleConfirmpass = event =>{
-      setConfirmpass(event.target.value);
-  }
+  const handleConfirmpass = (event) => {
+    setConfirmpass(event.target.value);
+  };
 
   // account type
   const handleType = (event) => {
@@ -64,92 +69,96 @@ const Signup = () => {
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-  
+
   // handle phone
   const handlePhone = (event) => {
     setPhone(event.target.value);
   };
 
   // verify email
-  const verifyEmail = () =>{
-        sendEmailVerification(auth.currentUser)
-        .then(()=>{
-            
-        })
-        .catch((error) => {
-            setErrors(error.message);
-        });
-  }
+  const verifyEmail = () => {
+    sendEmailVerification(auth.currentUser)
+      .then(() => {})
+      .catch((error) => {
+        setErrors(error.message);
+      });
+  };
 
   // register new user
-  const registerNewUser = (email,password) =>{
-        createUserWithEmailAndPassword(auth, email , password)
-        .then(result => {
-            const user = result.user;
-            console.log(user);
+  const registerNewUser = (email, password) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        const user = result.user;
+        // console.log("firebase user", user);
+        const idToken = user.getIdToken();
+        localStorage.setItem("firebase-token", idToken);
 
-            const saveUser = {name:name, email:email, phone:phone, type:type, address:address }
-            fetch('http://localhost:5000/users', {
-              method: 'POST',
-              headers:{
-                 'content-type': 'application/json'
-              },
-              body: JSON.stringify(saveUser)
-            })
-            .then( res => res.json() )
-            .then( (data)=>{
-
-                if(data.insertedId){
-                    Swal.fire({
-                            title: 'Now you are registered. Congratulations! Check your email to verify your email address.',
-                            showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                            }
-                    })
-                }
-
-            } )
-
-            setErrors('');
-            verifyEmail();
-            setUserName();
+        const saveUser = {
+          f_uid: user.uid,
+          name: name,
+          email: email,
+          phone: phone,
+          type: type,
+          address: address,
+        };
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(saveUser),
         })
-        .catch(error => {
-        setErrors(error.message);
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              Swal.fire({
+                title:
+                  "Now you are registered. Congratulations! Check your email to verify your email address.",
+                showClass: {
+                  popup: "animate__animated animate__fadeInDown",
+                },
+                hideClass: {
+                  popup: "animate__animated animate__fadeOutUp",
+                },
+              });
+            }
+          });
+
+        setErrors("");
+        verifyEmail();
+        setUserName();
       })
-  }
+      .catch((error) => {
+        setErrors(error.message);
+      });
+  };
 
   // set user name
   const setUserName = () => {
-        const auth = getAuth();
-        updateProfile(auth.currentUser, { displayName: name })
-        .then(result => {  
-            
-        })
-        .catch((error) => {
-            setErrors(error.message);
-        });
-  }
+    const auth = getAuth();
+    updateProfile(auth.currentUser, { displayName: name })
+      .then((result) => {})
+      .catch((error) => {
+        setErrors(error.message);
+      });
+  };
 
   // create a new user
-  const  handleRegistration = async (event) => {
+  const handleRegistration = async (event) => {
     event.preventDefault();
-     if(password !== confirmpass){
-            setErrors("Your password did not match! ");
-            return;
-        }
-        if(password.length < 6){
-            setErrors('Password Must be at least 6 characters long.');
-            return;
-        }
-        if (!/(?=.*[A-Z].*[A-Z])/.test(password)) {
-            setErrors('Password Must contain 2 upper case');
-            return;
-        }
-        registerNewUser(email, password);
+    if (password !== confirmpass) {
+      setErrors("Your password did not match! ");
+      return;
+    }
+    if (password.length < 6) {
+      setErrors("Password Must be at least 6 characters long.");
+      return;
+    }
+    if (!/(?=.*[A-Z].*[A-Z])/.test(password)) {
+      setErrors("Password Must contain 2 upper case");
+      return;
+    }
+    registerNewUser(email, password);
   };
 
   return (
@@ -158,7 +167,10 @@ const Signup = () => {
         <div className={classes.signup_content}>
           <div className={classes.signup_form}>
             <h2 className={classes.form_title}>Sign up</h2>
-            <small>*Password Must be at least 6 characters long and should have 2 uppercase</small>
+            <small>
+              *Password Must be at least 6 characters long and should have 2
+              uppercase
+            </small>
             <br /> <br />
             <form
               method="POST"
@@ -181,9 +193,9 @@ const Signup = () => {
                     id="name"
                     placeholder="Your Name"
                     value={name}
-                    onChange={handleName} required
+                    onChange={handleName}
+                    required
                   />
-
                 </div>
                 {errors.name && (
                   <p className={classes.error_message}>{errors.name}</p>
@@ -205,9 +217,9 @@ const Signup = () => {
                     id="address"
                     placeholder="Your Address"
                     value={address}
-                    onChange={handleAddress} required
+                    onChange={handleAddress}
+                    required
                   />
-
                 </div>
                 {errors.name && (
                   <p className={classes.error_message}>{errors.name}</p>
@@ -227,9 +239,9 @@ const Signup = () => {
                     id="email"
                     placeholder="Your Email"
                     value={email}
-                    onChange={handleEmail} required
+                    onChange={handleEmail}
+                    required
                   />
-
                 </div>
                 {errors.email && (
                   <p className={classes.error_message}>{errors.email}</p>
@@ -249,9 +261,9 @@ const Signup = () => {
                     id="phone"
                     placeholder="Your phone number"
                     value={phone}
-                    onChange={handlePhone} required
+                    onChange={handlePhone}
+                    required
                   />
-
                 </div>
                 {errors.phone && (
                   <p className={classes.error_message}>{errors.phone}</p>
@@ -270,8 +282,9 @@ const Signup = () => {
                     id="password"
                     placeholder="Password"
                     value={password}
-                    onChange={handlePassword} required
-                  /> 
+                    onChange={handlePassword}
+                    required
+                  />
 
                   <button
                     type="button"
@@ -300,7 +313,8 @@ const Signup = () => {
                     id="confirmpassword"
                     placeholder="Confirm Password"
                     value={confirmpass}
-                    onChange={handleConfirmpass} required
+                    onChange={handleConfirmpass}
+                    required
                   />
 
                   <button
@@ -320,17 +334,19 @@ const Signup = () => {
               </div>
 
               {/* account type */}
-              <Select fullWidth
+              <Select
+                fullWidth
                 value={type}
                 onChange={handleType}
                 displayEmpty
-                inputProps={{ 'aria-label': 'Without label' }} required
+                inputProps={{ "aria-label": "Without label" }}
+                required
               >
                 <MenuItem value="">
                   <p>Account Type</p>
                 </MenuItem>
-                <MenuItem value={'Landlord'} >Landlord</MenuItem>
-                <MenuItem value={'Tenant'}>Tenant</MenuItem>
+                <MenuItem value={"Landlord"}>Landlord</MenuItem>
+                <MenuItem value={"Tenant"}>Tenant</MenuItem>
               </Select>
 
               {/* reg button */}
@@ -345,8 +361,7 @@ const Signup = () => {
               </div>
               <br />
               {/* show error */}
-              <p style={{color: 'red'}} > {errors} </p>
-
+              <p style={{ color: "red" }}> {errors} </p>
             </form>
           </div>
           <div className={classes.signup_image}>

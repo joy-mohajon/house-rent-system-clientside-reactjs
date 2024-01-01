@@ -76,7 +76,7 @@ function App() {
               }
             >
               {/* admin home */}
-              <Route path="adminhome" element={<AdminHome></AdminHome>}>
+              <Route path="admin-profile" element={<AdminHome></AdminHome>}>
                 {" "}
               </Route>
               {/* admin: manage users */}
@@ -94,7 +94,7 @@ function App() {
 
               {/* landlord home */}
               <Route
-                path="landlordhome"
+                path="landlord-profile"
                 element={<LandlordHome></LandlordHome>}
               >
                 {" "}
@@ -108,7 +108,7 @@ function App() {
               ></Route>
 
               {/* tenant home */}
-              <Route path="tenanthome" element={<TenantHome></TenantHome>}>
+              <Route path="tenant-profile" element={<TenantHome></TenantHome>}>
                 {" "}
               </Route>
               {/* tenant: managebooking */}

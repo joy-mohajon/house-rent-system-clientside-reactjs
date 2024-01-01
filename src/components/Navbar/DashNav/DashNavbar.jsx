@@ -8,10 +8,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./DashNavbar.css";
 import { Avatar, Tooltip } from "@material-ui/core";
+import useAuth from "../../../pages/Auth/useAuth/useAuth";
 
 const DashNavbar = () => {
   const navigate = useNavigate();
 
+  const { user, logoutUser } = useAuth();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [favorite, setFavorite] = useState([]);
@@ -22,7 +24,7 @@ const DashNavbar = () => {
 
   // handle favorite product list
   const handleFarorite = (event) => {
-    navigate("/saved-property");
+    navigate("/dashboard/managecart");
   };
 
   // navigate to add property
@@ -46,6 +48,11 @@ const DashNavbar = () => {
       navigate("/profile");
     }
     setAnchorEl(null);
+  };
+
+  const logoutHandler = () => {
+    logoutUser();
+    navigate("/");
   };
 
   return (
@@ -119,10 +126,12 @@ const DashNavbar = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => handleClose("profile")}>
-                  <Typography textAlign="center">Profile</Typography>
+                <MenuItem>
+                  <Link to={"/dashboard"}>
+                    <Typography textAlign="center">Profile</Typography>
+                  </Link>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={() => logoutHandler()}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               </Menu>

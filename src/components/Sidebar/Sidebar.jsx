@@ -95,7 +95,7 @@ const Sidebar = () => {
         </a>
       </h1>
       <ul className="list-unstyled components mb-5">
-        <Box sx={{ mx: "auto", width: "80%" }}>
+        {/* <Box sx={{ mx: "auto", width: "80%" }}>
           <Slider
             getAriaLabel={() => "Price range"}
             // value={[10, 50]}
@@ -111,7 +111,7 @@ const Sidebar = () => {
               marginTop: "20px",
             }}
           />
-        </Box>
+        </Box> */}
         <CollapsibleInput
           parentState={category}
           onParentStateChange={(value) => setCategory(value)}

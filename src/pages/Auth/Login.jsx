@@ -1,13 +1,17 @@
-import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import notEyeImg from "../../assets/images/eye_closed.svg";
 import eyeImg from "../../assets/images/eye_open.svg";
 import singinImg from "../../assets/images/signin-image.jpg";
 import classes from "./styles.module.css";
 import useAuth from "./useAuth/useAuth";
-import { Button } from '@mui/material';
+import { Button } from "@mui/material";
 
 const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -18,92 +22,95 @@ const Login = () => {
   // const [token, setToken] = useState('');
 
   // google sign in
-  const {user, signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle } = useAuth();
   const auth = getAuth();
   const navigate = useNavigate();
 
-  const location = useLocation()
-  const from = location.state?.from?.pathname || "/"
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-   // email
-  const handleEmail = event => {
-      setEmail(event.target.value);
-  }
+  // email
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
 
   // password
-  const handlePassword = event => {
-      setPassword(event.target.value);
-  }
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+  };
 
   // password visible or not
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-   // handle login with email
-   const handleLogin = (email, password)=>{
-        signInWithEmailAndPassword(auth, email, password)
-            .then((result) => {
-                const user = result.user;
-                // console.log(user);
-                setErrors('');
-                navigate(from, {replace: true})
-            })
-            .then(()=>{
-                Swal.fire({
-                        title: 'User Login Successful!',
-                        showClass: {
-                            popup: 'animate__animated animate__fadeInDown'
-                        },
-                        hideClass: {
-                            popup: 'animate__animated animate__fadeOutUp'
-                        }
-                    })
-        })
-            .catch((error) => {
-               setErrors(error.message);
+  // handle login with email
+  const handleLogin = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        const user = result.user;
+        // console.log(user);
+        setErrors("");
+        navigate(from, { replace: true });
+        return user.getIdToken();
+      })
+      .then((token) => {
+        console.log("login token: ", token);
+        localStorage.setItem("firebase-token", token);
+        // console.log("this is token: ", token);
+
+        Swal.fire({
+          title: "User Login Successful!",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
         });
-  }
+      })
+      .catch((error) => {
+        setErrors(error.message);
+      });
+  };
 
-  // user login 
-  const handleUserLogin = async (event) =>{
-        event.preventDefault();  
-        handleLogin(email, password);
-
-  }
+  // user login
+  const handleUserLogin = async (event) => {
+    event.preventDefault();
+    handleLogin(email, password);
+  };
 
   // reset password
   const resetPassword = async () => {
-        if (email) {
-            await sendPasswordResetEmail(auth, email)
-            .then(result =>{
-                 // sweet alert
-                Swal.fire({
-                    title: 'Email sent. Check your email.',
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp'
-                    }
-                })
-            })
-           .catch((error) => {
-               setErrors(error.message);
-            });
-        }
-        else{
-            Swal.fire({
-                title: 'Please enter your email address',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
-            })
-        }
-  }
+    if (email) {
+      await sendPasswordResetEmail(auth, email)
+        .then((result) => {
+          // sweet alert
+          Swal.fire({
+            title: "Email sent. Check your email.",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+        })
+        .catch((error) => {
+          setErrors(error.message);
+        });
+    } else {
+      Swal.fire({
+        title: "Please enter your email address",
+        showClass: {
+          popup: "animate__animated animate__fadeInDown",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp",
+        },
+      });
+    }
+  };
 
   return (
     <section className={classes.signin}>
@@ -116,7 +123,16 @@ const Login = () => {
             <a href="/signup" className={classes.signup_image_link}>
               Create an account
             </a>
-            <span> Forgot password? <Button style={{color:'blue', fontWeight:'bold'}} onClick={resetPassword} >Reset Password</Button> </span>
+            <span>
+              {" "}
+              Forgot password?{" "}
+              <Button
+                style={{ color: "blue", fontWeight: "bold" }}
+                onClick={resetPassword}
+              >
+                Reset Password
+              </Button>{" "}
+            </span>
           </div>
 
           <div className={classes.signin_form}>
@@ -127,7 +143,6 @@ const Login = () => {
               id="login-form"
               onSubmit={handleUserLogin}
             >
-
               {/* email */}
               <div className={classes.form_control}>
                 <div className={classes.input_group}>
@@ -140,7 +155,8 @@ const Login = () => {
                     placeholder="Your Email"
                     name="email"
                     value={email}
-                    onChange={handleEmail} required
+                    onChange={handleEmail}
+                    required
                   />
                 </div>
                 {errors.email && (
@@ -161,7 +177,8 @@ const Login = () => {
                     name="password"
                     id="password"
                     value={password}
-                    onChange={handlePassword} required
+                    onChange={handlePassword}
+                    required
                   />
 
                   <button
@@ -179,7 +196,6 @@ const Login = () => {
                   <p className={classes.error_message}>{errors.password}</p>
                 )}
               </div>
-              
 
               <div className={`${classes.form_group} ${classes.form_button}`}>
                 <input
