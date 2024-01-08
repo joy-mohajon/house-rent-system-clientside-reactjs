@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
 const ProfileDetails = ({ userDetails }) => {
 
   return (
@@ -69,6 +70,10 @@ const ProfileDetails = ({ userDetails }) => {
           </div>
         </div>
       </div>
+      <br />
+
+      
+      
     </div>
   );
 };

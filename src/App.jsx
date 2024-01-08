@@ -30,6 +30,7 @@ import PaymentHistory from "./pages/DashboardPage/Tenant/PaymentHistory/PaymentH
 import ManageApartment from "./pages/DashboardPage/Landlord/ManageApartment/ManageApartment";
 import AllApartment from "./pages/DashboardPage/Admin/AllApartment/AllApartment";
 import { SearchContextProvider } from "./contexts/SearchContextProvider";
+import UpdateUser from "./pages/DashboardPage/UpdateUser/UpdateUser";
 const queryClient = new QueryClient();
 
 function App() {
@@ -79,6 +80,12 @@ function App() {
               <Route path="admin-profile" element={<AdminHome></AdminHome>}>
                 {" "}
               </Route>
+              {/* admin home : update */}
+              <Route path="admin-profile/update/:id" element={
+                <UpdateUser></UpdateUser>
+              } ></Route>
+
+
               {/* admin: manage users */}
               <Route
                 path="manageusers"
@@ -99,6 +106,13 @@ function App() {
               >
                 {" "}
               </Route>
+
+              {/* landlord home: update */}
+              <Route path="landlord-profile/update/:id" element={
+                <UpdateUser></UpdateUser>
+              } ></Route>
+
+
               {/* landlord: add apartment */}
               <Route path="add" element={<AddProperty />}></Route>
               {/* landlord: manage apartment */}
@@ -111,6 +125,12 @@ function App() {
               <Route path="tenant-profile" element={<TenantHome></TenantHome>}>
                 {" "}
               </Route>
+              {/* tenant update home */}
+              <Route path="tenant-profile/update/:id" element={
+                <UpdateUser></UpdateUser>
+              } ></Route>
+
+
               {/* tenant: managebooking */}
               <Route
                 path="managebooking"

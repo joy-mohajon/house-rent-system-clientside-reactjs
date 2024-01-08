@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../pages/Auth/useAuth/useAuth";
 import useAxiosSecure from "./useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import useAuth from "../pages/Auth/useAuth/useAuth";
 
 const useCart = () => {
+   const {user, loading} = useAuth();
   const [cart, setCart] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [reset, setReset] = useState(false);
@@ -26,7 +27,7 @@ const useCart = () => {
 
         // console.log("admin token", token);
 
-        const response = await fetch("http://localhost:5000/carts", {
+        const response = await fetch(`http://localhost:5000/carts?email=${user?.email}`, {
           method: "GET",
           headers: {
             Authorization: "Bearer " + token,

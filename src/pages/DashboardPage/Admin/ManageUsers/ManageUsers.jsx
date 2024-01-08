@@ -112,6 +112,7 @@ const ManageUsers = () => {
                         <TableCell >{user.email}</TableCell>
                         <TableCell >{user.address}</TableCell>
                         <TableCell >{user.phone}</TableCell>
+                        
                         <TableCell >{user.type}</TableCell>
                         {/* user role */}
                         <TableCell >

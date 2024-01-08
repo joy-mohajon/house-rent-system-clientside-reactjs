@@ -1,10 +1,13 @@
+import PaymentIcon from "@mui/icons-material/Payment";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import useAuth from "../../../Auth/useAuth/useAuth";
-import PaymentIcon from "@mui/icons-material/Payment";
 
-const CheckoutForm = ({ price, reset, setReset, cart }) => {
+// const clientSecret = 'pi_3OV8jRFuox1PcYme1OfT4oig_secret_rS2w4tCLLnefEVKVLlOqzekmU';
+
+const CheckoutForm =  ({ price, reset, setReset, cart }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
@@ -13,17 +16,22 @@ const CheckoutForm = ({ price, reset, setReset, cart }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false);
   const [transactionId, setTransactionId] = useState("");
-
-  useEffect(() => {
+  
+  
+  useEffect(  () => {
     if (price > 0) {
-      axiosSecure.post("/create-payment-intent", { price }).then((res) => {
-        console.log(res.data.clientSecret);
-        setClientSecret(res.data.clientSecret);
-      });
+      axios.post("http://localhost:5000/create-payment-intent", { price })
+      //  .then(res =>{ const { client_secret: clientSecret} = res.json()}) 
+      .then((data) => {
+          console.log(data.data.clientSecret);
+          setClientSecret(data.data.clientSecret);
+        });
     }
   }, []);
 
+
   console.log("clientSecret : ", clientSecret);
+
   // submit card
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -77,13 +85,14 @@ const CheckoutForm = ({ price, reset, setReset, cart }) => {
         cartItems: cart?.map((item) => item._id),
         apartment: cart?.map((item) => item.name),
       };
-      axiosSecure.post("/payments", payment).then((res) => {
-        if (res.data.insertedId) {
+      axios.post("http://localhost:5000/payments", payment)
+      .then((data) => {
+        if (data.data.insertedId) {
           setReset(!reset);
         }
       });
     }
-  };
+  }
 
   return (
     <div className="container">
@@ -114,7 +123,7 @@ const CheckoutForm = ({ price, reset, setReset, cart }) => {
         <button
           className="px-3 text-white btn btn-outline-primary active"
           type="submit"
-          //   disabled={!stripe || !clientSecret || processing}
+            // disabled={!stripe ||  processing}
         >
           <span className="d-flex ">
             {" "}

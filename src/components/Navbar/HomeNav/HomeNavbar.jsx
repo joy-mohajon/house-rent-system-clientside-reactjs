@@ -30,7 +30,7 @@ const Navbar = () => {
         Swal.fire("Signed out!", "You are signed out.", "success");
       }
     });
-    refetch();
+    // refetch();
   };
 
   const open = Boolean(anchorEl);

@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react";
-import MailIcon from "@mui/icons-material/Mail";
+import AddHomeIcon from "@mui/icons-material/AddHome";
+import ArticleIcon from "@mui/icons-material/Article";
+import BeenhereIcon from "@mui/icons-material/Beenhere";
+import CottageIcon from "@mui/icons-material/Cottage";
+import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+import PaymentIcon from "@mui/icons-material/Payment";
+import Person3Icon from "@mui/icons-material/Person3";
+import SearchIcon from "@mui/icons-material/Search";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import CottageIcon from "@mui/icons-material/Cottage";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -18,25 +24,16 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import * as React from "react";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import BeenhereIcon from "@mui/icons-material/Beenhere";
-import Person3Icon from "@mui/icons-material/Person3";
-import useAuth from "../Auth/useAuth/useAuth";
-import useAdmin from "../../Hooks/useAdmin";
-import ArticleIcon from "@mui/icons-material/Article";
-import PaymentIcon from "@mui/icons-material/Payment";
-import AddHomeIcon from "@mui/icons-material/AddHome";
-import SearchIcon from "@mui/icons-material/Search";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import useProfileInfo from "../../Hooks/useProfileInfo";
 import "../../components/Sidebar/Sidebar.css";
-import LogoutIcon from "@mui/icons-material/Logout";
+import useAuth from "../Auth/useAuth/useAuth";
 
 const drawerWidth = 240;
 
 function DashboardPage(props) {
   const { userInfo } = useProfileInfo();
+  console.log(userInfo);
   const navigate = useNavigate();
 
   // const [isAdmin] = useAdmin();
@@ -65,7 +62,7 @@ function DashboardPage(props) {
       <Divider />
 
       {/* 1st list admin */}
-      {userInfo?.role === "admin" && (
+      {userInfo?.type === "admin" && (
         <>
           <List>
             {/* admin home */}
@@ -131,6 +128,9 @@ function DashboardPage(props) {
           <Divider />
         </>
       )}
+
+      <></>
+
       {/* 2nd list landlord */}
       {userInfo?.type === "Landlord" && (
         <>
