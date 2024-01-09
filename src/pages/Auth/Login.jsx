@@ -55,7 +55,7 @@ const Login = () => {
         return user.getIdToken();
       })
       .then((token) => {
-        console.log("login token: ", token);
+        // console.log("login token: ", token);
         localStorage.setItem("firebase-token", token);
         // console.log("this is token: ", token);
 
