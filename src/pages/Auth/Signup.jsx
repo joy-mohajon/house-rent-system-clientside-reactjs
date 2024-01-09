@@ -25,9 +25,9 @@ const Signup = () => {
   const [confirmpass, setConfirmpass] = useState("");
   const [errors, setErrors] = useState("");
   const [type, setType] = useState("");
+  const { user, logoutUser } = useAuth();
 
   const auth = getAuth();
-  const { user } = useAuth();
 
   const navigate = useNavigate();
   // navigate
@@ -113,7 +113,7 @@ const Signup = () => {
             if (data.insertedId) {
               Swal.fire({
                 title:
-                  "Now you are registered. Congratulations! Check your email to verify your email address.",
+                  "Now you are registered. Congratulations! Now Login to enter 'House Rent' ",
                 showClass: {
                   popup: "animate__animated animate__fadeInDown",
                 },
@@ -159,6 +159,9 @@ const Signup = () => {
       return;
     }
     registerNewUser(email, password);
+    // change
+    logoutUser();
+    navigate("/login");
   };
 
   return (
